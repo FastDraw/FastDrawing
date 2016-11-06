@@ -1,6 +1,7 @@
 package com.company.andrzej.fastdraw;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -10,26 +11,30 @@ import android.view.View;
 
 public class DrawingView extends View {
 
-    private Paint brush = new Paint();
     private Path path = new Path();
-    private boolean eraserMode = false;
+    private Paint paint = new Paint();
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public void init() {
-        brush.setAntiAlias(true);
-        brush.setColor(Color.BLACK);
-        brush.setStyle(Paint.Style.STROKE);
-        brush.setStrokeJoin(Paint.Join.ROUND);
-        brush.setStrokeWidth(10f);
+    private void init() {
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeWidth(10f);
     }
 
     public void reset() {
         path.reset();
         postInvalidate();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        canvas.drawPath(path, paint);
     }
 
     public boolean onTouchEvent(MotionEvent event) {
