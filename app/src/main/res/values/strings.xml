@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FastDrawing</string>
+    <string name="clear">Clear</string>
+    <string name="accept">Accept</string>
+    <string name="share">Share</string>
+    <string name="image_bg">ImageBackground</string>
+    <string name="background">Background</string>
+    <string name="eraser">Eraser</string>
+</resources>
