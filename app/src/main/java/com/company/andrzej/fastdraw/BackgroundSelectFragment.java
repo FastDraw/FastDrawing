@@ -3,6 +3,7 @@ package com.company.andrzej.fastdraw;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,24 +18,9 @@ public class BackgroundSelectFragment extends Fragment {
 
     private Activity activity;
     private Context context;
-//TODO move it to string resources
-    String[] web = {
-            "Farm Land",
-            "Scroll",
-            "Desert",
-            "Magic Blue",
-            "Old City",
-            "Clip Board",
-            "Grass",
-            "Green Leaves",
-            "Moon Landscape",
-            "Prismatic Flourish",
-            "Technologic",
-            "White",
-            "Red",
-            "Blue",
-            "Yellow"
-    };
+    private String[] web;
+
+    //ToDo try to add integer-array and initialize it
     Integer[] imageID = {
             R.drawable.farm_small,
             R.drawable.scroll_small,
@@ -53,6 +39,12 @@ public class BackgroundSelectFragment extends Fragment {
             R.drawable.yellow_small
     };
 
+    private void initStringResources(){
+        Resources res;
+        res = this.getResources();
+        web = res.getStringArray(R.array.background_name);
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -65,6 +57,7 @@ public class BackgroundSelectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recycler_view_background, container, false);
         ButterKnife.bind(this, view);
+        initStringResources();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);

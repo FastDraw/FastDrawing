@@ -6,4 +6,38 @@
     <string name="image_bg">ImageBackground</string>
     <string name="background">Background</string>
     <string name="eraser">Eraser</string>
+    <string-array name="background_name">
+        <item>Farm Land</item>
+        <item>Scroll</item>
+        <item>Desert</item>
+        <item> Magic Blue</item>
+        <item>Old City</item>
+        <item>Clip Board</item>
+        <item>Grass</item>
+        <item>Green Leaves</item>
+        <item>Moon Landscape</item>
+        <item>Prismatic Flourish</item>
+        <item>Technologic</item>
+        <item>White</item>
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Yellow</item>
+    </string-array>
+    <integer-array name="drawable_positions">
+        <item>@drawable/farm_small</item>
+        <item>@drawable/scroll_small</item>
+        <item>@drawable/desert_small</item>
+        <item>@drawable/bg_blue_small</item>
+        <item>@drawable/city_small</item>
+        <item>@drawable/clip_small</item>
+        <item>@drawable/grass_small</item>
+        <item>@drawable/green_leaves_small</item>
+        <item>@drawable/moon_landscape_small</item>
+        <item>@drawable/prismatic_floruish_small</item>
+        <item>@drawable/technologic_small</item>
+        <item>@drawable/white_small</item>
+        <item>@drawable/red_small</item>
+        <item>@drawable/bllue_small</item>
+        <item>@drawable/yellow_small</item>
+    </integer-array>
 </resources>
