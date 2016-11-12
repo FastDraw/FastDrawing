@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -15,9 +16,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout relativeLayout;
 
     private ImageButton acceptBtn, clearBtn, backgroundBtn;
+    private ToggleButton eraserBtn;
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
 
@@ -99,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         acceptBtn = (ImageButton) findViewById(R.id.btn_accept);
         relativeLayout = (RelativeLayout) findViewById(R.id.main_relative);
         backgroundBtn = (ImageButton) findViewById(R.id.btn_background);
+        eraserBtn = (ToggleButton) findViewById(R.id.btn_eraser);
     }
 
 
@@ -132,6 +137,19 @@ public class MainActivity extends AppCompatActivity {
                     showFragmentBackground();
                 } else {
                     hideFragmentBackground();
+                }
+            }
+        });
+
+        // TODO add changing drawing for erasing on button turned on
+        eraserBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // temporary alfa change to indicate button on/off status
+                if (isChecked){
+                    eraserBtn.setAlpha(0.5f);
+                } else {
+                    eraserBtn.setAlpha(1f);
                 }
             }
         });
