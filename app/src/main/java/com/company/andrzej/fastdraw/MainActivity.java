@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -147,8 +148,10 @@ public class MainActivity extends AppCompatActivity {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked){
                     eraserBtn.setAlpha(0.5f);
+                    drawingView.changeColor(Color.RED);
                 } else {
                     eraserBtn.setAlpha(1f);
+                    drawingView.changeColor(Color.BLACK);
                 }
             }
         });
