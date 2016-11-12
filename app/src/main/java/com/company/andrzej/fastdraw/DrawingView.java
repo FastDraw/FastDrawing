@@ -10,10 +10,15 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class DrawingView extends View {
 
+    private static final float TOLERANCE = 5;
     private final Context context;
-    private Path path;
+    private ArrayList<Path> paths;
+    private Path lastPath;
+    private ArrayList<Paint> paints;
     private Paint paint;
     private Bitmap mBitmap;
     private Canvas mCanvas;
@@ -22,12 +27,20 @@ public class DrawingView extends View {
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        path = new Path();
-        paint = new Paint();
         init();
     }
 
-    private void init() {
+    private void init(){
+        paths = new ArrayList<Path>();
+        paths.add(new Path());
+        lastPath = paths.get(paths.size()-1);
+        paints = new ArrayList<Paint>();
+        paint = new Paint();
+        paintInit();
+        paints.add(paint);
+    }
+
+    private void paintInit() {
         paint.setAntiAlias(true);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
@@ -35,8 +48,10 @@ public class DrawingView extends View {
         paint.setStrokeWidth(10f);
     }
 
+    // FIXME resets only last lastPath at the moment - consider using as resetPath() method
+    // or undo() method if new lastPath is created each time ACTION_UP happens (finger lifted up)
     public void resetCanvas() {
-        path.reset();
+        lastPath.reset();
         postInvalidate();
     }
 
@@ -50,7 +65,12 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawPath(path, paint);
+        for (Path p : paths) {
+            // FIXME change currentPaint for list of colors and use appropriate
+            // [now it duplicates -> can lead to infinite paint number]
+            Paint currentPaint = paints.get(paths.indexOf(p));
+            canvas.drawPath(p, currentPaint);
+        }
     }
 
     public boolean onTouchEvent(MotionEvent event) {
@@ -58,7 +78,7 @@ public class DrawingView extends View {
         float pointY = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                path.moveTo(pointX, pointY);
+                lastPath.moveTo(pointX, pointY);
                 mX = pointX;
                 mY = pointY;
                 postInvalidate();
@@ -66,20 +86,28 @@ public class DrawingView extends View {
             case MotionEvent.ACTION_MOVE:
                 float dx = Math.abs(pointX - mX);
                 float dy = Math.abs(pointY - mY);
-                if (dx >= 5 || dy >= 5) {
-                    path.quadTo(mX, mY, (pointX + mX) / 2, (pointY + mY) / 2);
+                if (dx >= TOLERANCE || dy >= TOLERANCE) {
+                    lastPath.quadTo(mX, mY, (pointX + mX) / 2, (pointY + mY) / 2);
                     mX = pointX;
                     mY = pointY;
                 }
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                path.lineTo(mX, mY);
+                lastPath.lineTo(mX, mY);
                 postInvalidate();
                 break;
             default:
                 return false;
         }
         return true;
+    }
+
+    public void changeColor(int color){
+        paints.add(new Paint(paint));
+        paints.get(paints.size()-1).setColor(color);
+        paths.add(new Path());
+        lastPath = paths.get(paths.size()-1);
+        postInvalidate();
     }
 }
