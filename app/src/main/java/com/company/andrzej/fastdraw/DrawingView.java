@@ -11,11 +11,13 @@ import android.view.View;
 
 public class DrawingView extends View {
 
-    private Path path = new Path();
-    private Paint paint = new Paint();
+    private Path path;
+    private Paint paint;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        path = new Path();
+        paint = new Paint();
         init();
     }
 
