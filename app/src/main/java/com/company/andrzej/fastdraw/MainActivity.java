@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -126,14 +125,14 @@ public class MainActivity extends AppCompatActivity {
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawingView.reset();
+                drawingView.resetCanvas();
             }
         });
         backgroundBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (backgroundSelectFragment.isHidden()) {
-                    drawingView.reset();
+                    drawingView.resetCanvas();
                     showFragmentBackground();
                 } else {
                     hideFragmentBackground();
@@ -244,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                                 clearBtn.setVisibility(View.VISIBLE);
                                 backgroundBtn.setVisibility(View.VISIBLE);
                                 setButtonsEnabledAndDisabled(true);
-                                drawingView.reset();
+                                drawingView.resetCanvas();
                                 hideFragmentBackground();
                             }
                         });
