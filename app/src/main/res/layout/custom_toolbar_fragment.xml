@@ -1,42 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relative_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:layout_alignParentBottom="true"
-    android:layout_gravity="bottom">
+    android:layout_height="120dp"
+    android:layout_gravity="bottom"
+    android:layout_alignParentBottom="true">
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="#ffff0000">
+    <ToggleButton
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:checked="false"
+        android:background="@drawable/pencil"/>
 
-        <LinearLayout
-            android:id="@+id/bottom_panel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ToggleButton
-                android:layout_width="50dp"
-                android:layout_height="90dp"
-                android:checked="false"
-                android:background="@drawable/pencil"/>
-
-            <ToggleButton
+    <ToggleButton
                 android:layout_width="50dp"
                 android:layout_height="90dp"
                 android:checked="false"
                 android:background="@drawable/feather"/>
 
-            <ToggleButton
-                android:layout_width="50dp"
-                android:layout_height="90dp"
-                android:background="@drawable/marker"/>
+    <ToggleButton
+        android:layout_width="50dp"
+        android:layout_height="90dp"
+        android:background="@drawable/marker"/>
 
-
-        </LinearLayout>
-    </HorizontalScrollView>
-</RelativeLayout>
+</LinearLayout>
