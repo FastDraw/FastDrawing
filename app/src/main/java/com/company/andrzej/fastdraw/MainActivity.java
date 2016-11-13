@@ -179,10 +179,10 @@ public class MainActivity extends AppCompatActivity {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked){
                     eraserBtn.setAlpha(0.5f);
-                    drawingView.changeColor(Color.RED);
+                    drawingView.changeColor(Color.TRANSPARENT, true);
                 } else {
                     eraserBtn.setAlpha(1f);
-                    drawingView.changeColor(Color.BLACK);
+                    drawingView.changeColor(Color.BLACK, false);
                 }
             }
         });
@@ -232,14 +232,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setButtonsEnabledAndDisabled(boolean ch){
+    private void setButtonsEnabled(boolean ch){
         acceptBtn.setEnabled(ch);
         clearBtn.setEnabled(ch);
         backgroundBtn.setEnabled(ch);
     }
 
     private void takeAScreenshot() {
-        setButtonsEnabledAndDisabled(false);
+        setButtonsEnabled(false);
         acceptBtn.setVisibility(View.INVISIBLE);
         clearBtn.setVisibility(View.INVISIBLE);
         backgroundBtn.setVisibility(View.INVISIBLE);
@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                                 acceptBtn.setVisibility(View.VISIBLE);
                                 clearBtn.setVisibility(View.VISIBLE);
                                 backgroundBtn.setVisibility(View.VISIBLE);
-                                setButtonsEnabledAndDisabled(true);
+                                setButtonsEnabled(true);
                                 drawingView.resetCanvas();
                                 hideFragmentBackground();
                             }
