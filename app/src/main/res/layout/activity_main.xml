@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:id="@+id/main_relative">
 
-    <com.company.andrzej.fastdraw.DrawingView
-        android:id="@+id/drawing_canvas"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <ImageButton
         android:id="@+id/btn_accept"
         android:layout_width="wrap_content"
@@ -32,6 +27,14 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@mipmap/ic_keyboard_arrow_up_black_36dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_toolbar"
+        android:layout_centerInParent="true"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/background"
         android:background="@mipmap/ic_screen_share_black_36dp"
         android:id="@+id/btn_background"
@@ -51,4 +54,12 @@
         android:checked="false"
         android:textOff=""
         android:textOn="" />
+
+    <com.company.andrzej.fastdraw.DrawingView
+        android:id="@+id/drawing_canvas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
