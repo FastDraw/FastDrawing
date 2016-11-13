@@ -148,10 +148,10 @@ public class MainActivity extends AppCompatActivity {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked){
                     eraserBtn.setAlpha(0.5f);
-                    drawingView.changeColor(Color.RED);
+                    drawingView.changeColor(Color.TRANSPARENT, true);
                 } else {
                     eraserBtn.setAlpha(1f);
-                    drawingView.changeColor(Color.BLACK);
+                    drawingView.changeColor(Color.BLACK, false);
                 }
             }
         });

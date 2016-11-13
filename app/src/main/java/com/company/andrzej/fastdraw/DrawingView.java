@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -103,11 +105,39 @@ public class DrawingView extends View {
         return true;
     }
 
+    // temporary method, probably useless
     public void changeColor(int color){
         paints.add(new Paint(paint));
         paints.get(paints.size()-1).setColor(color);
         paths.add(new Path());
         lastPath = paths.get(paths.size()-1);
+        postInvalidate();
+    }
+
+    public void changeColor(int color, boolean eraser){
+        paints.add(new Paint(paint));
+        paints.get(paints.size()-1).setColor(color);
+        if (eraser){
+            // sets layer for transparent paint
+            Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
+            setLayerType(LAYER_TYPE_HARDWARE, q);
+            paints.get(paints.size()-1).setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        } else {
+            paints.get(paints.size()-1).setXfermode(null);
+        }
+        paths.add(new Path());
+        lastPath = paths.get(paths.size()-1);
+        postInvalidate();
+    }
+
+    // temporary method, probably useless
+    public void setEraseMode(boolean eraser){
+        if (eraser){
+            paints.get(paints.size()-1).setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            paints.get(paints.size()-1).setColor(Color.RED);
+        } else {
+            paints.get(paints.size()-1).setXfermode(null);
+        }
         postInvalidate();
     }
 }
