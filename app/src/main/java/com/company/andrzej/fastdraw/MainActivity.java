@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ToggleButton eraserBtn;
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
-//    private CustomBottomToolbarFragment customBottomToolbarFragment;
+    private CustomBottomToolbarFragment customBottomToolbarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +53,22 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         checkStoragePermission();
         initViews();
+        setUpListeners();
+        setButtonsEnabled(true);
         setRelativeLayoutBackground();
-//        customBottomToolbarFragment = new CustomBottomToolbarFragment();
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .add(R.id.main_relative, customBottomToolbarFragment, "custom")
-//                .hide(customBottomToolbarFragment)
-//                .commit();
+        customBottomToolbarFragment = new CustomBottomToolbarFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.main_relative, customBottomToolbarFragment, "custom")
+                .hide(customBottomToolbarFragment)
+                .commit();
         backgroundSelectFragment = new BackgroundSelectFragment();
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
                 .add(R.id.main_relative, backgroundSelectFragment, "background")
                 .hide(backgroundSelectFragment)
                 .commit();
-        setUpListeners();
+
     }
 
     public void changeBackground(int position) {
@@ -104,19 +106,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    private void showToolbarFragment(){
-//        getFragmentManager().beginTransaction()
-//                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-//                .show(customBottomToolbarFragment)
-//                .commit();
-//    }
-//
-//    private void hideToolbarFragment(){
-//        getFragmentManager().beginTransaction()
-//                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-//                .hide(customBottomToolbarFragment)
-//                .commit();
-//    }
+    private void showToolbarFragment(){
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                .show(customBottomToolbarFragment)
+                .commit();
+    }
+
+    private void hideToolbarFragment(){
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                .hide(customBottomToolbarFragment)
+                .commit();
+    }
 
     private void initViews() {
         drawingView = (DrawingView) findViewById(R.id.drawing_canvas);
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         relativeLayout = (RelativeLayout) findViewById(R.id.main_relative);
         backgroundBtn = (ImageButton) findViewById(R.id.btn_background);
         eraserBtn = (ToggleButton) findViewById(R.id.btn_eraser);
-//        toogleToolbar = (ImageButton) findViewById(R.id.btn_toolbar);
+        toogleToolbar = (ImageButton) findViewById(R.id.btn_toolbar);
     }
 
     private void setUpListeners() {
@@ -144,16 +146,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-//        toogleToolbar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (customBottomToolbarFragment.isHidden()) {
-//                    showToolbarFragment();
-//                } else {
-//                    hideToolbarFragment();
-//                }
-//            }
-//        });
+        toogleToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (customBottomToolbarFragment.isHidden()) {
+                    showToolbarFragment();
+                } else {
+                    hideToolbarFragment();
+                }
+            }
+        });
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

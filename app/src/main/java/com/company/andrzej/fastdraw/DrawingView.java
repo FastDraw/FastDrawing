@@ -42,6 +42,32 @@ public class DrawingView extends View {
         paints.add(paint);
     }
 
+    //cast this methods for settings of marke,pen,feather
+
+    private void penSettings(){
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeWidth(6f);
+    }
+
+    private void featherSettings(){
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeWidth(12f);
+    }
+
+    private void markerSettings(){
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeWidth(18f);
+    }
+
     private void paintInit() {
         paint.setAntiAlias(true);
         paint.setColor(Color.BLACK);
