@@ -105,15 +105,6 @@ public class DrawingView extends View {
         return true;
     }
 
-    // temporary method, probably useless
-    public void changeColor(int color){
-        paints.add(new Paint(paint));
-        paints.get(paints.size()-1).setColor(color);
-        paths.add(new Path());
-        lastPath = paths.get(paths.size()-1);
-        postInvalidate();
-    }
-
     public void changeColor(int color, boolean eraser){
         paints.add(new Paint(paint));
         paints.get(paints.size()-1).setColor(color);
@@ -127,17 +118,6 @@ public class DrawingView extends View {
         }
         paths.add(new Path());
         lastPath = paths.get(paths.size()-1);
-        postInvalidate();
-    }
-
-    // temporary method, probably useless
-    public void setEraseMode(boolean eraser){
-        if (eraser){
-            paints.get(paints.size()-1).setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            paints.get(paints.size()-1).setColor(Color.RED);
-        } else {
-            paints.get(paints.size()-1).setXfermode(null);
-        }
         postInvalidate();
     }
 }
