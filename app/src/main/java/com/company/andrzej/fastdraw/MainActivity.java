@@ -113,9 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private void hideToolbarFragment(){
+    public void hideToolbarFragment(){
         getFragmentManager().beginTransaction()
-                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                 .hide(customBottomToolbarFragment)
                 .commit();
     }
@@ -151,8 +150,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (customBottomToolbarFragment.isHidden()) {
                     showToolbarFragment();
+                    setButtonsInvisible();
                 } else {
                     hideToolbarFragment();
+                    setButtonsVisible();
                 }
             }
         });
@@ -240,11 +241,22 @@ public class MainActivity extends AppCompatActivity {
         backgroundBtn.setEnabled(ch);
     }
 
-    private void takeAScreenshot() {
-        setButtonsEnabled(false);
+    public void setButtonsInvisible(){
         acceptBtn.setVisibility(View.INVISIBLE);
         clearBtn.setVisibility(View.INVISIBLE);
-        backgroundBtn.setVisibility(View.INVISIBLE);
+        toogleToolbar.setVisibility(View.INVISIBLE);
+
+    }
+
+    public void setButtonsVisible(){
+        acceptBtn.setVisibility(View.VISIBLE);
+        clearBtn.setVisibility(View.VISIBLE);
+        toogleToolbar.setVisibility(View.VISIBLE);
+    }
+
+    private void takeAScreenshot() {
+        setButtonsEnabled(false);
+        setButtonsInvisible();
         String uniqueID = UUID.randomUUID().toString();
         String mPath = android.os.Environment.getExternalStorageDirectory().toString()
                 + "/" + uniqueID + ".jpg";
@@ -275,9 +287,7 @@ public class MainActivity extends AppCompatActivity {
                                 shareIntent.setType("image/jpeg");
                                 startActivity(Intent.createChooser(shareIntent,
                                         "Choose one"));
-                                acceptBtn.setVisibility(View.VISIBLE);
-                                clearBtn.setVisibility(View.VISIBLE);
-                                backgroundBtn.setVisibility(View.VISIBLE);
+                                setButtonsVisible();
                                 setButtonsEnabled(true);
                                 drawingView.resetCanvas();
                                 hideFragmentBackground();
