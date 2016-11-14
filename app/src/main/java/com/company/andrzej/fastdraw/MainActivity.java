@@ -232,14 +232,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setButtonsEnabledAndDisabled(boolean ch){
+    private void setButtonsEnabled(boolean ch){
         acceptBtn.setEnabled(ch);
         clearBtn.setEnabled(ch);
         backgroundBtn.setEnabled(ch);
     }
 
     private void takeAScreenshot() {
-        setButtonsEnabledAndDisabled(false);
+        setButtonsEnabled(false);
         acceptBtn.setVisibility(View.INVISIBLE);
         clearBtn.setVisibility(View.INVISIBLE);
         backgroundBtn.setVisibility(View.INVISIBLE);
@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                                 acceptBtn.setVisibility(View.VISIBLE);
                                 clearBtn.setVisibility(View.VISIBLE);
                                 backgroundBtn.setVisibility(View.VISIBLE);
-                                setButtonsEnabledAndDisabled(true);
+                                setButtonsEnabled(true);
                                 drawingView.resetCanvas();
                                 hideFragmentBackground();
                             }
