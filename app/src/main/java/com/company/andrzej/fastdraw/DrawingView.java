@@ -15,13 +15,24 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class DrawingView extends View {
+    private static final int TRANSPARENT = 0;
+    private static final int BLACK = 3;
+    private static final int RED = 6;
+    private static final int GREEN = 9;
+    private static final int BLUE = 12;
+    private static final int SMALL = 0;
+    private static final int MEDIUM = 1;
+    private static final int BIG = 2;
 
     private static final float TOLERANCE = 5;
     private final Context context;
     private ArrayList<Path> paths;
     private Path lastPath;
     private ArrayList<Paint> paints;
-    private Paint paint;
+    private Integer[] colors;
+    private Float[] styles;
+    private Paint currentPaint;
+    private ArrayList<Paint> usedPaints;
     private Bitmap mBitmap;
     private Canvas mCanvas;
     private float mX, mY;
@@ -37,43 +48,70 @@ public class DrawingView extends View {
         paths.add(new Path());
         lastPath = paths.get(paths.size()-1);
         paints = new ArrayList<Paint>();
-        paint = new Paint();
-        paintInit();
-        paints.add(paint);
+        usedPaints = new ArrayList<Paint>();
+        initColorsAndStyles();
+        currentPaint = paints.get(BLACK+MEDIUM);
     }
 
     //cast this methods for settings of marke,pen,feather
 
     private void penSettings(){
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setStrokeWidth(6f);
+        currentPaint.setAntiAlias(true);
+        currentPaint.setColor(Color.BLACK);
+        currentPaint.setStyle(Paint.Style.STROKE);
+        currentPaint.setStrokeJoin(Paint.Join.ROUND);
+        currentPaint.setStrokeWidth(6f);
     }
 
     private void featherSettings(){
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setStrokeWidth(12f);
+        currentPaint.setAntiAlias(true);
+        currentPaint.setColor(Color.BLACK);
+        currentPaint.setStyle(Paint.Style.STROKE);
+        currentPaint.setStrokeJoin(Paint.Join.ROUND);
+        currentPaint.setStrokeWidth(12f);
     }
 
     private void markerSettings(){
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setStrokeWidth(18f);
+        currentPaint.setAntiAlias(true);
+        currentPaint.setColor(Color.BLACK);
+        currentPaint.setStyle(Paint.Style.STROKE);
+        currentPaint.setStrokeJoin(Paint.Join.ROUND);
+        currentPaint.setStrokeWidth(18f);
     }
 
     private void paintInit() {
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setStrokeWidth(10f);
+        currentPaint.setAntiAlias(true);
+        currentPaint.setColor(Color.BLACK);
+        currentPaint.setStyle(Paint.Style.STROKE);
+        currentPaint.setStrokeJoin(Paint.Join.ROUND);
+        currentPaint.setStrokeWidth(10f);
+    }
+
+    private void initColorsAndStyles(){
+        colors = new Integer[] {Color.TRANSPARENT, Color.BLACK, Color.RED, Color.GREEN, Color.BLUE};
+        styles = new Float[] {6f, 12f, 18f};
+        for (int i=0; i<colors.length; i++){
+            for (int j=0; j<styles.length; j++){
+                Paint p = new Paint();
+                p.setColor(colors[i]);
+                p.setStrokeWidth(styles[j]);
+                if (i==TRANSPARENT){
+                    p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                } else {
+                    p.setXfermode(null);
+                }
+                paintInit(p);
+                paints.add(p);
+            }
+        }
+    }
+
+    private void paintInit(Paint p) {
+        p.setAntiAlias(true);
+        //p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.STROKE);
+        p.setStrokeJoin(Paint.Join.ROUND);
+        //p.setStrokeWidth(10f);
     }
 
     // FIXME resets only last lastPath at the moment - consider using as resetPath() method
@@ -93,11 +131,14 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (usedPaints.size() == 0 || usedPaints.get(usedPaints.size()-1) != currentPaint){
+            usedPaints.add(currentPaint);
+        }
         for (Path p : paths) {
             // FIXME change currentPaint for list of colors and use appropriate
-            // [now it duplicates -> can lead to infinite paint number]
-            Paint currentPaint = paints.get(paths.indexOf(p));
-            canvas.drawPath(p, currentPaint);
+            // [now it duplicates -> can lead to infinite currentPaint number]
+            // Fixed?
+            canvas.drawPath(p, usedPaints.get(paths.indexOf(p)));
         }
     }
 
@@ -132,15 +173,25 @@ public class DrawingView extends View {
     }
 
     public void changeColor(int color, boolean eraser){
-        paints.add(new Paint(paint));
-        paints.get(paints.size()-1).setColor(color);
+        // TODO change method to not create different paintd but use predefined instead
+        //paints.add(new Paint(currentPaint));
+        //paints.get(paints.size()-1).setColor(color);
+        int i=0;
+        while (!colors[i].equals(color)){
+            if (colors.length == i+1){
+                // invalid color sent from MainActivity - shouldn't ever happen
+                break;
+            }
+            i++;
+        }
+        currentPaint = paints.get(3*i+MEDIUM);
         if (eraser){
-            // sets layer for transparent paint
+            // sets layer for transparent currentPaint
             Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
             setLayerType(LAYER_TYPE_HARDWARE, q);
-            paints.get(paints.size()-1).setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        } else {
-            paints.get(paints.size()-1).setXfermode(null);
+            //paints.get(paints.size()-1).setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            //} else {
+            //paints.get(paints.size()-1).setXfermode(null);
         }
         paths.add(new Path());
         lastPath = paths.get(paths.size()-1);
