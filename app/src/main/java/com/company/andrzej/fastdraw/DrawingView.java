@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,6 +40,32 @@ public class DrawingView extends View {
         paint = new Paint();
         paintInit();
         paints.add(paint);
+    }
+
+    //cast this methods for settings of marke,pen,feather
+
+    private void penSettings(){
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeWidth(6f);
+    }
+
+    private void featherSettings(){
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeWidth(12f);
+    }
+
+    private void markerSettings(){
+        paint.setAntiAlias(true);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeWidth(18f);
     }
 
     private void paintInit() {
@@ -103,9 +131,17 @@ public class DrawingView extends View {
         return true;
     }
 
-    public void changeColor(int color){
+    public void changeColor(int color, boolean eraser){
         paints.add(new Paint(paint));
         paints.get(paints.size()-1).setColor(color);
+        if (eraser){
+            // sets layer for transparent paint
+            Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
+            setLayerType(LAYER_TYPE_HARDWARE, q);
+            paints.get(paints.size()-1).setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        } else {
+            paints.get(paints.size()-1).setXfermode(null);
+        }
         paths.add(new Path());
         lastPath = paths.get(paths.size()-1);
         postInvalidate();

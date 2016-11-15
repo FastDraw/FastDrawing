@@ -38,10 +38,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_relative)
     RelativeLayout relativeLayout;
 
-    private ImageButton acceptBtn, clearBtn, backgroundBtn;
+    private ImageButton acceptBtn, clearBtn, backgroundBtn, toogleToolbar;
     private ToggleButton eraserBtn;
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
+    private CustomBottomToolbarFragment customBottomToolbarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +53,22 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         checkStoragePermission();
         initViews();
+        setUpListeners();
+        setButtonsEnabled(true);
         setRelativeLayoutBackground();
+        customBottomToolbarFragment = new CustomBottomToolbarFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.main_relative, customBottomToolbarFragment, "custom")
+                .hide(customBottomToolbarFragment)
+                .commit();
         backgroundSelectFragment = new BackgroundSelectFragment();
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
                 .add(R.id.main_relative, backgroundSelectFragment, "background")
                 .hide(backgroundSelectFragment)
                 .commit();
-        setUpListeners();
+
     }
 
     public void changeBackground(int position) {
@@ -97,6 +106,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void showToolbarFragment(){
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                .show(customBottomToolbarFragment)
+                .commit();
+    }
+
+    public void hideToolbarFragment(){
+        getFragmentManager().beginTransaction()
+                .hide(customBottomToolbarFragment)
+                .commit();
+    }
+
     private void initViews() {
         drawingView = (DrawingView) findViewById(R.id.drawing_canvas);
         clearBtn = (ImageButton) findViewById(R.id.btn_clear);
@@ -104,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
         relativeLayout = (RelativeLayout) findViewById(R.id.main_relative);
         backgroundBtn = (ImageButton) findViewById(R.id.btn_background);
         eraserBtn = (ToggleButton) findViewById(R.id.btn_eraser);
+        toogleToolbar = (ImageButton) findViewById(R.id.btn_toolbar);
     }
-
 
     private void setUpListeners() {
         acceptBtn.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +142,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     takeAScreenshot();
+                }
+            }
+        });
+        toogleToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (customBottomToolbarFragment.isHidden()) {
+                    showToolbarFragment();
+                    setButtonsInvisible();
+                } else {
+                    hideToolbarFragment();
+                    setButtonsVisible();
                 }
             }
         });
@@ -148,10 +182,10 @@ public class MainActivity extends AppCompatActivity {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked){
                     eraserBtn.setAlpha(0.5f);
-                    drawingView.changeColor(Color.RED);
+                    drawingView.changeColor(Color.TRANSPARENT, true);
                 } else {
                     eraserBtn.setAlpha(1f);
-                    drawingView.changeColor(Color.BLACK);
+                    drawingView.changeColor(Color.BLACK, false);
                 }
             }
         });
@@ -201,17 +235,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setButtonsEnabledAndDisabled(boolean ch){
+    private void setButtonsEnabled(boolean ch){
         acceptBtn.setEnabled(ch);
         clearBtn.setEnabled(ch);
         backgroundBtn.setEnabled(ch);
     }
 
-    private void takeAScreenshot() {
-        setButtonsEnabledAndDisabled(false);
+    public void setButtonsInvisible(){
         acceptBtn.setVisibility(View.INVISIBLE);
         clearBtn.setVisibility(View.INVISIBLE);
-        backgroundBtn.setVisibility(View.INVISIBLE);
+        toogleToolbar.setVisibility(View.INVISIBLE);
+
+    }
+
+    public void setButtonsVisible(){
+        acceptBtn.setVisibility(View.VISIBLE);
+        clearBtn.setVisibility(View.VISIBLE);
+        toogleToolbar.setVisibility(View.VISIBLE);
+    }
+
+    private void takeAScreenshot() {
+        setButtonsEnabled(false);
+        setButtonsInvisible();
         String uniqueID = UUID.randomUUID().toString();
         String mPath = android.os.Environment.getExternalStorageDirectory().toString()
                 + "/" + uniqueID + ".jpg";
@@ -242,10 +287,8 @@ public class MainActivity extends AppCompatActivity {
                                 shareIntent.setType("image/jpeg");
                                 startActivity(Intent.createChooser(shareIntent,
                                         "Choose one"));
-                                acceptBtn.setVisibility(View.VISIBLE);
-                                clearBtn.setVisibility(View.VISIBLE);
-                                backgroundBtn.setVisibility(View.VISIBLE);
-                                setButtonsEnabledAndDisabled(true);
+                                setButtonsVisible();
+                                setButtonsEnabled(true);
                                 drawingView.resetCanvas();
                                 hideFragmentBackground();
                             }
