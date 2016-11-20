@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void loadImagefromGallery(View view){
+    public void loadImagefromGallery(View view) {
         //create intent to open image applications
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         //start the intent
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     && null != data) {
                 // Get the Image from data
                 Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 // Get the cursor
                 Cursor cursor = getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
@@ -135,25 +135,25 @@ public class MainActivity extends AppCompatActivity {
             relativeLayout.setBackgroundResource(R.drawable.prismatic_floruis);
         } else if (position == 10) {
             relativeLayout.setBackgroundResource(R.drawable.technologic);
-        }else if(position == 11){
+        } else if (position == 11) {
             relativeLayout.setBackgroundResource(R.color.white);
-        }else if(position == 12){
+        } else if (position == 12) {
             relativeLayout.setBackgroundResource(R.color.red);
-        }else if(position == 13){
+        } else if (position == 13) {
             relativeLayout.setBackgroundResource(R.color.blue);
-        }else if(position == 14){
+        } else if (position == 14) {
             relativeLayout.setBackgroundResource(R.color.yellow);
         }
     }
 
-    private void showToolbarFragment(){
+    private void showToolbarFragment() {
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                 .show(customBottomToolbarFragment)
                 .commit();
     }
 
-    public void hideToolbarFragment(){
+    public void hideToolbarFragment() {
         getFragmentManager().beginTransaction()
                 .hide(customBottomToolbarFragment)
                 .commit();
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
-                if (isChecked){
+                if (isChecked) {
                     eraserBtn.setAlpha(0.5f);
                     drawingView.changeColor(Color.TRANSPARENT, true);
                 } else {
@@ -282,20 +282,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setButtonsEnabled(boolean ch){
+    private void setButtonsEnabled(boolean ch) {
         acceptBtn.setEnabled(ch);
         clearBtn.setEnabled(ch);
         backgroundBtn.setEnabled(ch);
     }
 
-    public void setButtonsInvisible(){
+    public void setButtonsInvisible() {
         acceptBtn.setVisibility(View.INVISIBLE);
         clearBtn.setVisibility(View.INVISIBLE);
         toogleToolbar.setVisibility(View.INVISIBLE);
 
     }
 
-    public void setButtonsVisible(){
+    public void setButtonsVisible() {
         acceptBtn.setVisibility(View.VISIBLE);
         clearBtn.setVisibility(View.VISIBLE);
         toogleToolbar.setVisibility(View.VISIBLE);

@@ -32,10 +32,10 @@ public class DrawingView extends View {
         init();
     }
 
-    private void init(){
+    private void init() {
         paths = new ArrayList<Path>();
         paths.add(new Path());
-        lastPath = paths.get(paths.size()-1);
+        lastPath = paths.get(paths.size() - 1);
         paints = new ArrayList<Paint>();
         paint = new Paint();
         paintInit();
@@ -44,7 +44,7 @@ public class DrawingView extends View {
 
     //cast this methods for settings of marke,pen,feather
 
-    private void penSettings(){
+    private void penSettings() {
         paint.setAntiAlias(true);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
@@ -52,7 +52,7 @@ public class DrawingView extends View {
         paint.setStrokeWidth(6f);
     }
 
-    private void featherSettings(){
+    private void featherSettings() {
         paint.setAntiAlias(true);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
@@ -60,7 +60,7 @@ public class DrawingView extends View {
         paint.setStrokeWidth(12f);
     }
 
-    private void markerSettings(){
+    private void markerSettings() {
         paint.setAntiAlias(true);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
@@ -131,19 +131,19 @@ public class DrawingView extends View {
         return true;
     }
 
-    public void changeColor(int color, boolean eraser){
+    public void changeColor(int color, boolean eraser) {
         paints.add(new Paint(paint));
-        paints.get(paints.size()-1).setColor(color);
-        if (eraser){
+        paints.get(paints.size() - 1).setColor(color);
+        if (eraser) {
             // sets layer for transparent paint
             Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
             setLayerType(LAYER_TYPE_HARDWARE, q);
-            paints.get(paints.size()-1).setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            paints.get(paints.size() - 1).setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         } else {
-            paints.get(paints.size()-1).setXfermode(null);
+            paints.get(paints.size() - 1).setXfermode(null);
         }
         paths.add(new Path());
-        lastPath = paths.get(paths.size()-1);
+        lastPath = paths.get(paths.size() - 1);
         postInvalidate();
     }
 }

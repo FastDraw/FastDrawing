@@ -39,7 +39,7 @@ public class BackgroundSelectFragment extends Fragment {
             R.drawable.yellow_small
     };
 
-    private void initStringResources(){
+    private void initStringResources() {
         Resources res;
         res = this.getResources();
         web = res.getStringArray(R.array.background_name);

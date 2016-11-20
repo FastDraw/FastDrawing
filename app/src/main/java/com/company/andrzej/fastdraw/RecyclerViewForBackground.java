@@ -33,7 +33,7 @@ class RecyclerViewForBackground extends RecyclerView.Adapter<RecyclerViewForBack
 
     @Override
     public void onBindViewHolder(final View_Holder holder, final int position) {
-       holder.txt.setText(web[position]);
+        holder.txt.setText(web[position]);
         holder.img.setImageResource(img[position]);
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,11 +52,14 @@ class RecyclerViewForBackground extends RecyclerView.Adapter<RecyclerViewForBack
     }
 
     @Override
-    public int getItemCount() {return web.length;}
+    public int getItemCount() {
+        return web.length;
+    }
 
     class View_Holder extends RecyclerView.ViewHolder {
         private TextView txt;
         private ImageView img;
+
         View_Holder(View itemView) {
             super(itemView);
             txt = (TextView) itemView.findViewById(R.id.txt);

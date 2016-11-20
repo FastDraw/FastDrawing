@@ -32,16 +32,16 @@ public class CustomBottomToolbarFragment extends Fragment {
         View view = inflater.inflate(R.layout.custom_toolbar_fragment, container, false);
         ButterKnife.bind(this, view);
         btnHide = (ImageButton) view.findViewById(R.id.btn_hidefragment);
-      //  hideFragment();
+        hideFragment();
         return view;
     }
 
-    private void hideFragment(){
+    private void hideFragment() {
         btnHide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)activity).hideToolbarFragment();
-                ((MainActivity)activity).setButtonsVisible();
+                ((MainActivity) activity).hideToolbarFragment();
+                ((MainActivity) activity).setButtonsVisible();
             }
         });
     }
