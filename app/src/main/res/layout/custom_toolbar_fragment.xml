@@ -26,19 +26,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/pencil"
-                android:text="Pencil" />
+                android:contentDescription="@string/pencil"
+                android:background="@drawable/pencil"
+                android:checked="true"
+                android:alpha="0.5"
+                android:textOff=""
+                android:textOn=""/>
 
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/pen"
-                android:text="Pen" />
+                android:contentDescription="@string/pen"
+                android:background="@drawable/pen"
+                android:checked="false"
+                android:textOff=""
+                android:textOn=""/>
 
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/marker"
-                android:text="Marker" />
+                android:contentDescription="@string/marker"
+                android:background="@drawable/marker"
+                android:checked="false"
+                android:textOff=""
+                android:textOn=""/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -51,25 +64,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/color_black"
-                android:text="Color1" />
+                android:contentDescription="@string/black"
+                android:background="@drawable/color_black"
+                android:checked="true"
+                android:alpha="0.5"
+                android:textOff=""
+                android:textOn=""/>
 
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/color_red"
-                android:text="Color2" />
+                android:contentDescription="@string/red"
+                android:background="@drawable/color_red"
+                android:checked="false"
+                android:textOff=""
+                android:textOn=""/>
 
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/color_green"
-                android:text="Color3" />
+                android:contentDescription="@string/green"
+                android:background="@drawable/color_green"
+                android:checked="false"
+                android:textOff=""
+                android:textOn=""/>
 
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/color_blue"
-                android:text="Color4" />
+                android:contentDescription="@string/blue"
+                android:background="@drawable/color_blue"
+                android:checked="false"
+                android:textOff=""
+                android:textOn=""/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -79,10 +109,14 @@
                 android:layout_weight="1" />
 
             <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/eraser"
-                android:text="Eraser" />
+                android:contentDescription="@string/eraser"
+                android:background="@drawable/erase_72"
+                android:checked="false"
+                android:textOff=""
+                android:textOn=""/>
 
         </LinearLayout>
     </HorizontalScrollView>
