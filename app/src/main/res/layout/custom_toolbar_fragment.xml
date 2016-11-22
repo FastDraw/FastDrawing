@@ -22,19 +22,22 @@
             android:gravity="bottom"
             android:orientation="horizontal">
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/pencil"
                 android:text="Pencil" />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/pen"
                 android:text="Pen" />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/marker"
                 android:text="Marker" />
 
             <ImageView
@@ -44,20 +47,29 @@
                 android:id="@+id/separator1"
                 android:layout_weight="1" />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/color_black"
                 android:text="Color1" />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/color_red"
                 android:text="Color2" />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/color_green"
                 android:text="Color3" />
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/color_blue"
+                android:text="Color4" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -66,9 +78,10 @@
                 android:id="@+id/separator2"
                 android:layout_weight="1" />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/eraser"
                 android:text="Eraser" />
 
         </LinearLayout>
