@@ -55,7 +55,7 @@ public class DrawingView extends View {
 
     //cast this methods for settings of marke,pen,feather
 
-    private void penSettings(){
+    private void penSettings(){ //pencil.png
         currentPaint.setAntiAlias(true);
         currentPaint.setColor(Color.BLACK);
         currentPaint.setStyle(Paint.Style.STROKE);
@@ -63,7 +63,7 @@ public class DrawingView extends View {
         currentPaint.setStrokeWidth(6f);
     }
 
-    private void featherSettings(){
+    private void featherSettings(){ //pen.png
         currentPaint.setAntiAlias(true);
         currentPaint.setColor(Color.BLACK);
         currentPaint.setStyle(Paint.Style.STROKE);
