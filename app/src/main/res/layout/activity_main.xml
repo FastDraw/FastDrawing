@@ -39,7 +39,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:contentDescription="@string/eraser"
-        android:background="@drawable/erase_72"
+        android:background="@drawable/eraser"
         android:checked="false"
         android:textOff=""
         android:textOn="" />
