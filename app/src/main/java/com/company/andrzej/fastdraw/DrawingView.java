@@ -77,11 +77,15 @@ public class DrawingView extends View {
         p.setStyle(Paint.Style.STROKE);
         p.setStrokeJoin(Paint.Join.ROUND);
     }
-
-    // FIXME resets only last lastPath at the moment - consider using as resetPath() method
-    // or undo() method if new lastPath is created each time ACTION_UP happens (finger lifted up)
+    
     public void resetCanvas() {
-        lastPath.reset();
+        for (Path p : paths) {
+            p.reset();
+        }
+        paths.clear();
+        paths.add(new Path());
+        lastPath = paths.get(paths.size()-1);
+        usedPaints.clear();
         postInvalidate();
     }
 

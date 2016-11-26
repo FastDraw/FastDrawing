@@ -272,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
                                         "Choose one"));
                                 setButtonsVisible();
                                 setButtonsEnabled(true);
+                                // FIXME Why reseting canvas? Now it causes deleting content before picture is saved
                                 drawingView.resetCanvas();
                                 hideFragmentBackground();
                             }
