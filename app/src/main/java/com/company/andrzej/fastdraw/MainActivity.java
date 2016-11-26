@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
@@ -19,7 +18,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -221,22 +219,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // TODO add changing drawing for erasing on button turned on
-        eraserBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // temporary alfa change to indicate button on/off status
-                if (isChecked) {
-                    eraserBtn.setAlpha(0.5f);
-                    drawingView.changeColor(Color.TRANSPARENT, true);
-                } else {
-                    eraserBtn.setAlpha(1f);
-                    drawingView.changeColor(Color.BLACK, false);
-                }
-            }
-        });
-
     }
 
     private void showFragmentBackground() {

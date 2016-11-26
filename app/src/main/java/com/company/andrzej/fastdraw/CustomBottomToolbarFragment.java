@@ -55,9 +55,6 @@ public class CustomBottomToolbarFragment extends Fragment {
         return view;
     }
 
-<<<<<<< HEAD
-    private void hideFragment() {
-=======
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -65,7 +62,6 @@ public class CustomBottomToolbarFragment extends Fragment {
     }
 
     private void hideFragment(){
->>>>>>> 86a60add316dfb3e475bb3005d1d9ab9cfdfdd84
         btnHide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
