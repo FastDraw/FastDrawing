@@ -42,8 +42,12 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_relative)
     RelativeLayout relativeLayout;
 
+<<<<<<< HEAD
     private ImageButton acceptBtn, clearBtn, backgroundBtn, toogleToolbar, addPhotoBtn;
     private ToggleButton eraserBtn;
+=======
+    private ImageButton acceptBtn, clearBtn, backgroundBtn, toogleToolbar;
+>>>>>>> 86a60add316dfb3e475bb3005d1d9ab9cfdfdd84
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
     private CustomBottomToolbarFragment customBottomToolbarFragment;
@@ -165,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
         acceptBtn = (ImageButton) findViewById(R.id.btn_accept);
         relativeLayout = (RelativeLayout) findViewById(R.id.main_relative);
         backgroundBtn = (ImageButton) findViewById(R.id.btn_background);
-        eraserBtn = (ToggleButton) findViewById(R.id.btn_eraser);
         toogleToolbar = (ImageButton) findViewById(R.id.btn_toolbar);
         addPhotoBtn = (ImageButton) findViewById(R.id.btn_addphoto);
     }
@@ -221,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+<<<<<<< HEAD
 
         // TODO add changing drawing for erasing on button turned on
         eraserBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -236,6 +240,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+=======
+>>>>>>> 86a60add316dfb3e475bb3005d1d9ab9cfdfdd84
     }
 
     private void showFragmentBackground() {
@@ -336,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
                                         "Choose one"));
                                 setButtonsVisible();
                                 setButtonsEnabled(true);
+                                // FIXME Why reseting canvas? Now it causes deleting content before picture is saved
                                 drawingView.resetCanvas();
                                 hideFragmentBackground();
                             }

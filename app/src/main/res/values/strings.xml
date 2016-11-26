@@ -6,6 +6,13 @@
     <string name="image_bg">ImageBackground</string>
     <string name="background">Background</string>
     <string name="eraser">Eraser</string>
+    <string name="pencil">pencil</string>
+    <string name="pen">pen</string>
+    <string name="marker">marker</string>
+    <string name="black">black</string>
+    <string name="red">red</string>
+    <string name="green">green</string>
+    <string name="blue">blue</string>
     <string-array name="background_name">
         <item>Farm Land</item>
         <item>Scroll</item>
