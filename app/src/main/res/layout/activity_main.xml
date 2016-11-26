@@ -32,7 +32,7 @@
         android:background="@mipmap/ic_clear_black_36dp"
         android:contentDescription="@string/clear" />
 
-<<<<<<< HEAD
+
     <ToggleButton
         android:id="@+id/btn_eraser"
         android:layout_width="wrap_content"
@@ -46,8 +46,7 @@
         android:textOff=""
         android:textOn="" />
 
-=======
->>>>>>> 86a60add316dfb3e475bb3005d1d9ab9cfdfdd84
+
     <ImageButton
         android:id="@+id/btn_background"
         android:layout_width="wrap_content"

@@ -42,12 +42,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_relative)
     RelativeLayout relativeLayout;
 
-<<<<<<< HEAD
+
     private ImageButton acceptBtn, clearBtn, backgroundBtn, toogleToolbar, addPhotoBtn;
     private ToggleButton eraserBtn;
-=======
-    private ImageButton acceptBtn, clearBtn, backgroundBtn, toogleToolbar;
->>>>>>> 86a60add316dfb3e475bb3005d1d9ab9cfdfdd84
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
     private CustomBottomToolbarFragment customBottomToolbarFragment;
@@ -224,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-<<<<<<< HEAD
 
         // TODO add changing drawing for erasing on button turned on
         eraserBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -240,8 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-=======
->>>>>>> 86a60add316dfb3e475bb3005d1d9ab9cfdfdd84
+
     }
 
     private void showFragmentBackground() {
