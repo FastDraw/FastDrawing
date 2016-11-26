@@ -53,40 +53,6 @@ public class DrawingView extends View {
         currentPaint = paints.get(BLACK+MEDIUM);
     }
 
-    //cast this methods for settings of marke,pen,feather
-
-    private void penSettings(){ //pencil.png
-        currentPaint.setAntiAlias(true);
-        currentPaint.setColor(Color.BLACK);
-        currentPaint.setStyle(Paint.Style.STROKE);
-        currentPaint.setStrokeJoin(Paint.Join.ROUND);
-        currentPaint.setStrokeWidth(6f);
-    }
-
-    private void featherSettings(){ //pen.png
-        currentPaint.setAntiAlias(true);
-        currentPaint.setColor(Color.BLACK);
-        currentPaint.setStyle(Paint.Style.STROKE);
-        currentPaint.setStrokeJoin(Paint.Join.ROUND);
-        currentPaint.setStrokeWidth(12f);
-    }
-
-    private void markerSettings(){
-        currentPaint.setAntiAlias(true);
-        currentPaint.setColor(Color.BLACK);
-        currentPaint.setStyle(Paint.Style.STROKE);
-        currentPaint.setStrokeJoin(Paint.Join.ROUND);
-        currentPaint.setStrokeWidth(18f);
-    }
-
-    private void paintInit() {
-        currentPaint.setAntiAlias(true);
-        currentPaint.setColor(Color.BLACK);
-        currentPaint.setStyle(Paint.Style.STROKE);
-        currentPaint.setStrokeJoin(Paint.Join.ROUND);
-        currentPaint.setStrokeWidth(10f);
-    }
-
     private void initColorsAndStyles(){
         colors = new Integer[] {Color.TRANSPARENT, Color.BLACK, Color.RED, Color.GREEN, Color.BLUE};
         styles = new Float[] {6f, 12f, 18f};
@@ -108,10 +74,8 @@ public class DrawingView extends View {
 
     private void paintInit(Paint p) {
         p.setAntiAlias(true);
-        //p.setColor(Color.BLACK);
         p.setStyle(Paint.Style.STROKE);
         p.setStrokeJoin(Paint.Join.ROUND);
-        //p.setStrokeWidth(10f);
     }
 
     // FIXME resets only last lastPath at the moment - consider using as resetPath() method
@@ -172,26 +136,29 @@ public class DrawingView extends View {
         return true;
     }
 
-    public void changeColor(int color, boolean eraser){
-        // TODO change method to not create different paintd but use predefined instead
-        //paints.add(new Paint(currentPaint));
-        //paints.get(paints.size()-1).setColor(color);
+    public void changeColorAndStyle(int color, float style, boolean eraser){
+        // TODO change method to not create different paint but use predefined instead
         int i=0;
         while (!colors[i].equals(color)){
             if (colors.length == i+1){
-                // invalid color sent from MainActivity - shouldn't ever happen
+                // invalid color sent from Toolbar - shouldn't ever happen
                 break;
             }
             i++;
         }
-        currentPaint = paints.get(3*i+MEDIUM);
+        int j=0;
+        while (!styles[j].equals(style)){
+            if (styles.length == j+1){
+                // invalid style sent from Toolbar - shouldn't ever happen
+                break;
+            }
+            j++;
+        }
+        currentPaint = paints.get(3*i+j);
         if (eraser){
             // sets layer for transparent currentPaint
             Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
             setLayerType(LAYER_TYPE_HARDWARE, q);
-            //paints.get(paints.size()-1).setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            //} else {
-            //paints.get(paints.size()-1).setXfermode(null);
         }
         paths.add(new Path());
         lastPath = paths.get(paths.size()-1);

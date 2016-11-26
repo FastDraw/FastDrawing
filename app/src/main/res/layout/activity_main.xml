@@ -31,19 +31,6 @@
         android:contentDescription="@string/clear"
         android:background="@mipmap/ic_clear_black_36dp" />
 
-    <ToggleButton
-        android:id="@+id/btn_eraser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:contentDescription="@string/eraser"
-        android:background="@drawable/eraser"
-        android:checked="false"
-        android:textOff=""
-        android:textOn="" />
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout relativeLayout;
 
     private ImageButton acceptBtn, clearBtn, backgroundBtn, toogleToolbar;
-    private ToggleButton eraserBtn;
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
     private CustomBottomToolbarFragment customBottomToolbarFragment;
@@ -125,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
         acceptBtn = (ImageButton) findViewById(R.id.btn_accept);
         relativeLayout = (RelativeLayout) findViewById(R.id.main_relative);
         backgroundBtn = (ImageButton) findViewById(R.id.btn_background);
-        eraserBtn = (ToggleButton) findViewById(R.id.btn_eraser);
         toogleToolbar = (ImageButton) findViewById(R.id.btn_toolbar);
     }
 
@@ -171,21 +169,6 @@ public class MainActivity extends AppCompatActivity {
                     showFragmentBackground();
                 } else {
                     hideFragmentBackground();
-                }
-            }
-        });
-
-        // TODO add changing drawing for erasing on button turned on
-        eraserBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // temporary alfa change to indicate button on/off status
-                if (isChecked){
-                    eraserBtn.setAlpha(0.5f);
-                    drawingView.changeColor(Color.TRANSPARENT, true);
-                } else {
-                    eraserBtn.setAlpha(1f);
-                    drawingView.changeColor(Color.BLACK, false);
                 }
             }
         });
