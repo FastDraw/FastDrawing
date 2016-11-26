@@ -61,7 +61,7 @@ public class CustomBottomToolbarFragment extends Fragment {
         drawingView = (DrawingView) getActivity().findViewById(R.id.drawing_canvas);
     }
 
-    private void hideFragment(){
+    private void hideFragment() {
         btnHide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +76,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
-                if (isChecked){
+                if (isChecked) {
                     pencil.setAlpha(0.5f);
                     pen.setAlpha(1f);
                     marker.setAlpha(1f);
@@ -94,7 +94,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
-                if (isChecked){
+                if (isChecked) {
                     pencil.setAlpha(1f);
                     pen.setAlpha(0.5f);
                     marker.setAlpha(1f);
@@ -112,7 +112,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
-                if (isChecked){
+                if (isChecked) {
                     pencil.setAlpha(1f);
                     pen.setAlpha(1f);
                     marker.setAlpha(0.5f);
@@ -130,7 +130,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
-                if (isChecked){
+                if (isChecked) {
                     color_black.setAlpha(0.5f);
                     color_red.setAlpha(1f);
                     color_green.setAlpha(1f);
@@ -151,7 +151,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
-                if (isChecked){
+                if (isChecked) {
                     color_black.setAlpha(1f);
                     color_red.setAlpha(0.5f);
                     color_green.setAlpha(1f);
@@ -172,7 +172,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
-                if (isChecked){
+                if (isChecked) {
                     color_black.setAlpha(1f);
                     color_red.setAlpha(1f);
                     color_green.setAlpha(0.5f);
@@ -193,7 +193,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
-                if (isChecked){
+                if (isChecked) {
                     color_black.setAlpha(1f);
                     color_red.setAlpha(1f);
                     color_green.setAlpha(1f);
@@ -214,7 +214,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
-                if (isChecked){
+                if (isChecked) {
                     eraser.setAlpha(0.5f);
                     savedColor = getCurrentColor();
                     currentColor = Color.TRANSPARENT;
@@ -242,7 +242,7 @@ public class CustomBottomToolbarFragment extends Fragment {
         color_blue.setEnabled(enable);
     }
 
-    void updateDrawingTool(){
+    void updateDrawingTool() {
         drawingView.changeColorAndStyle(currentColor, currentStyle, eraserMode);
     }
 

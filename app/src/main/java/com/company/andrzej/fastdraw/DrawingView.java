@@ -50,18 +50,18 @@ public class DrawingView extends View {
         paints = new ArrayList<Paint>();
         usedPaints = new ArrayList<Paint>();
         initColorsAndStyles();
-        currentPaint = paints.get(BLACK+MEDIUM);
+        currentPaint = paints.get(BLACK + MEDIUM);
     }
 
-    private void initColorsAndStyles(){
-        colors = new Integer[] {Color.TRANSPARENT, Color.BLACK, Color.RED, Color.GREEN, Color.BLUE};
-        styles = new Float[] {6f, 12f, 18f};
-        for (int i=0; i<colors.length; i++){
-            for (int j=0; j<styles.length; j++){
+    private void initColorsAndStyles() {
+        colors = new Integer[]{Color.TRANSPARENT, Color.BLACK, Color.RED, Color.GREEN, Color.BLUE};
+        styles = new Float[]{6f, 12f, 18f};
+        for (int i = 0; i < colors.length; i++) {
+            for (int j = 0; j < styles.length; j++) {
                 Paint p = new Paint();
                 p.setColor(colors[i]);
                 p.setStrokeWidth(styles[j]);
-                if (i==TRANSPARENT){
+                if (i == TRANSPARENT) {
                     p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
                 } else {
                     p.setXfermode(null);
@@ -77,14 +77,14 @@ public class DrawingView extends View {
         p.setStyle(Paint.Style.STROKE);
         p.setStrokeJoin(Paint.Join.ROUND);
     }
-    
+
     public void resetCanvas() {
         for (Path p : paths) {
             p.reset();
         }
         paths.clear();
         paths.add(new Path());
-        lastPath = paths.get(paths.size()-1);
+        lastPath = paths.get(paths.size() - 1);
         usedPaints.clear();
         postInvalidate();
     }
@@ -99,7 +99,7 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (usedPaints.size() == 0 || usedPaints.get(usedPaints.size()-1) != currentPaint){
+        if (usedPaints.size() == 0 || usedPaints.get(usedPaints.size() - 1) != currentPaint) {
             usedPaints.add(currentPaint);
         }
         for (Path p : paths) {
@@ -137,26 +137,26 @@ public class DrawingView extends View {
         return true;
     }
 
-    public void changeColorAndStyle(int color, float style, boolean eraser){
+    public void changeColorAndStyle(int color, float style, boolean eraser) {
         // TODO change method to not create different paint but use predefined instead
-        int i=0;
-        while (!colors[i].equals(color)){
-            if (colors.length == i+1){
+        int i = 0;
+        while (!colors[i].equals(color)) {
+            if (colors.length == i + 1) {
                 // invalid color sent from Toolbar - shouldn't ever happen
                 break;
             }
             i++;
         }
-        int j=0;
-        while (!styles[j].equals(style)){
-            if (styles.length == j+1){
+        int j = 0;
+        while (!styles[j].equals(style)) {
+            if (styles.length == j + 1) {
                 // invalid style sent from Toolbar - shouldn't ever happen
                 break;
             }
             j++;
         }
-        currentPaint = paints.get(3*i+j);
-        if (eraser){
+        currentPaint = paints.get(3 * i + j);
+        if (eraser) {
             // sets layer for transparent currentPaint
             Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
             setLayerType(LAYER_TYPE_HARDWARE, q);
