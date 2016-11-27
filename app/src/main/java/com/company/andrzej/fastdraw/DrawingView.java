@@ -77,7 +77,7 @@ public class DrawingView extends View {
         p.setStyle(Paint.Style.STROKE);
         p.setStrokeJoin(Paint.Join.ROUND);
     }
-    
+
     public void resetCanvas() {
         for (Path p : paths) {
             p.reset();
@@ -103,9 +103,6 @@ public class DrawingView extends View {
             usedPaints.add(currentPaint);
         }
         for (Path p : paths) {
-            // FIXME change currentPaint for list of colors and use appropriate
-            // [now it duplicates -> can lead to infinite currentPaint number]
-            // Fixed?
             canvas.drawPath(p, usedPaints.get(paths.indexOf(p)));
         }
     }
@@ -141,7 +138,6 @@ public class DrawingView extends View {
     }
 
     public void changeColorAndStyle(int color, float style, boolean eraser){
-        // TODO change method to not create different paint but use predefined instead
         int i=0;
         while (!colors[i].equals(color)){
             if (colors.length == i+1){
