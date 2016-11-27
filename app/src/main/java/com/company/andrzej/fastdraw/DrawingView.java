@@ -17,12 +17,7 @@ import java.util.ArrayList;
 public class DrawingView extends View {
     private static final int TRANSPARENT = 0;
     private static final int BLACK = 3;
-    private static final int RED = 6;
-    private static final int GREEN = 9;
-    private static final int BLUE = 12;
-    private static final int SMALL = 0;
     private static final int MEDIUM = 1;
-    private static final int BIG = 2;
 
     private static final float TOLERANCE = 5;
     private final Context context;
@@ -34,7 +29,6 @@ public class DrawingView extends View {
     private Paint currentPaint;
     private ArrayList<Paint> usedPaints;
     private Bitmap mBitmap;
-    private Canvas mCanvas;
     private float mX, mY;
 
     public DrawingView(Context context, AttributeSet attrs) {
@@ -93,7 +87,6 @@ public class DrawingView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        mCanvas = new Canvas(mBitmap);
     }
 
     @Override

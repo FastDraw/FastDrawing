@@ -21,7 +21,6 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,9 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_relative)
     RelativeLayout relativeLayout;
 
-
     private ImageButton acceptBtn, clearBtn, backgroundBtn, toogleToolbar, addPhotoBtn;
-    private ToggleButton eraserBtn;
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
     private CustomBottomToolbarFragment customBottomToolbarFragment;
@@ -59,25 +56,10 @@ public class MainActivity extends AppCompatActivity {
         setUpListeners();
         setButtonsEnabled(true);
         setRelativeLayoutBackground();
-        customBottomToolbarFragment = new CustomBottomToolbarFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.main_relative, customBottomToolbarFragment, "custom")
-                .hide(customBottomToolbarFragment)
-                .commit();
-        backgroundSelectFragment = new BackgroundSelectFragment();
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction()
-                .add(R.id.main_relative, backgroundSelectFragment, "background")
-                .hide(backgroundSelectFragment)
-                .commit();
-
     }
 
     public void loadImagefromGallery(View view) {
-        //create intent to open image applications
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        //start the intent
         startActivityIfNeeded(galleryIntent, RESULT_LOAD_IMG);
     }
 
@@ -85,22 +67,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
-            // When an Image is picked
             if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK
                     && null != data) {
-                // Get the Image from data
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                // Get the cursor
                 Cursor cursor = getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
-                // Move to first row
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
                 Drawable d = new BitmapDrawable(getResources(), imgDecodableString);
-                drawingView.setBackground(d);
+                relativeLayout.setBackground(d);
             } else {
                 Toast.makeText(this, "You haven't picked Image",
                         Toast.LENGTH_LONG).show();
@@ -193,12 +171,23 @@ public class MainActivity extends AppCompatActivity {
         toogleToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (customBottomToolbarFragment.isHidden()) {
-                    showToolbarFragment();
+                if (customBottomToolbarFragment == null) {
+                    customBottomToolbarFragment = new CustomBottomToolbarFragment();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .add(R.id.main_relative, customBottomToolbarFragment, "custom")
+                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                            .show(customBottomToolbarFragment)
+                            .commit();
                     setButtonsInvisible();
                 } else {
-                    hideToolbarFragment();
-                    setButtonsVisible();
+                    if (customBottomToolbarFragment.isHidden()) {
+                        showToolbarFragment();
+                        setButtonsInvisible();
+                    } else {
+                        hideToolbarFragment();
+                        setButtonsVisible();
+                    }
                 }
             }
         });
@@ -211,11 +200,20 @@ public class MainActivity extends AppCompatActivity {
         backgroundBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (backgroundSelectFragment.isHidden()) {
-                    drawingView.resetCanvas();
-                    showFragmentBackground();
+                if (backgroundSelectFragment == null) {
+                    backgroundSelectFragment = new BackgroundSelectFragment();
+                    FragmentManager fm = getFragmentManager();
+                    fm.beginTransaction()
+                            .add(R.id.main_relative, backgroundSelectFragment, "background")
+                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                            .show(backgroundSelectFragment)
+                            .commit();
                 } else {
-                    hideFragmentBackground();
+                    if (backgroundSelectFragment.isHidden()) {
+                        showFragmentBackground();
+                    } else {
+                        hideFragmentBackground();
+                    }
                 }
             }
         });
@@ -269,19 +267,24 @@ public class MainActivity extends AppCompatActivity {
         acceptBtn.setEnabled(ch);
         clearBtn.setEnabled(ch);
         backgroundBtn.setEnabled(ch);
+        addPhotoBtn.setEnabled(ch);
+        toogleToolbar.setEnabled(ch);
     }
 
     public void setButtonsInvisible() {
         acceptBtn.setVisibility(View.INVISIBLE);
         clearBtn.setVisibility(View.INVISIBLE);
         toogleToolbar.setVisibility(View.INVISIBLE);
-
+        backgroundBtn.setVisibility(View.INVISIBLE);
+        addPhotoBtn.setVisibility(View.INVISIBLE);
     }
 
     public void setButtonsVisible() {
         acceptBtn.setVisibility(View.VISIBLE);
         clearBtn.setVisibility(View.VISIBLE);
         toogleToolbar.setVisibility(View.VISIBLE);
+        backgroundBtn.setVisibility(View.VISIBLE);
+        addPhotoBtn.setVisibility(View.VISIBLE);
     }
 
     private void takeAScreenshot() {
@@ -319,19 +322,10 @@ public class MainActivity extends AppCompatActivity {
                                         "Choose one"));
                                 setButtonsVisible();
                                 setButtonsEnabled(true);
-                                // FIXME Why reseting canvas? Now it causes deleting content before picture is saved
-                                drawingView.resetCanvas();
-                                hideFragmentBackground();
                             }
                         });
                     }
                 });
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 
     private void setRelativeLayoutBackground() {
