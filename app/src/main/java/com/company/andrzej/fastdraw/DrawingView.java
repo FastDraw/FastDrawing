@@ -1,7 +1,6 @@
 package com.company.andrzej.fastdraw;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,12 +14,13 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class DrawingView extends View {
+
     private static final int TRANSPARENT = 0;
     private static final int BLACK = 3;
     private static final int MEDIUM = 1;
-
     private static final float TOLERANCE = 5;
-    private final Context context;
+    
+    private Context context;
     private ArrayList<Path> paths;
     private Path lastPath;
     private ArrayList<Paint> paints;
@@ -28,7 +28,6 @@ public class DrawingView extends View {
     private Float[] styles;
     private Paint currentPaint;
     private ArrayList<Paint> usedPaints;
-    private Bitmap mBitmap;
     private float mX, mY;
 
     public DrawingView(Context context, AttributeSet attrs) {
@@ -38,11 +37,11 @@ public class DrawingView extends View {
     }
 
     private void init() {
-        paths = new ArrayList<Path>();
+        paths = new ArrayList<>();
         paths.add(new Path());
         lastPath = paths.get(paths.size() - 1);
-        paints = new ArrayList<Paint>();
-        usedPaints = new ArrayList<Paint>();
+        paints = new ArrayList<>();
+        usedPaints = new ArrayList<>();
         initColorsAndStyles();
         currentPaint = paints.get(BLACK + MEDIUM);
     }
@@ -51,10 +50,10 @@ public class DrawingView extends View {
         colors = new Integer[]{Color.TRANSPARENT, Color.BLACK, Color.RED, Color.GREEN, Color.BLUE};
         styles = new Float[]{6f, 12f, 18f};
         for (int i = 0; i < colors.length; i++) {
-            for (int j = 0; j < styles.length; j++) {
+            for (Float style : styles) {
                 Paint p = new Paint();
                 p.setColor(colors[i]);
-                p.setStrokeWidth(styles[j]);
+                p.setStrokeWidth(style);
                 if (i == TRANSPARENT) {
                     p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
                 } else {
@@ -81,12 +80,6 @@ public class DrawingView extends View {
         lastPath = paths.get(paths.size() - 1);
         usedPaints.clear();
         postInvalidate();
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
     }
 
     @Override

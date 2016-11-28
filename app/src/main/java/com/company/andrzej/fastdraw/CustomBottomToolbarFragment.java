@@ -1,6 +1,5 @@
 package com.company.andrzej.fastdraw;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
@@ -11,13 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import butterknife.ButterKnife;
 
 public class CustomBottomToolbarFragment extends Fragment {
 
-    private Activity activity;
     private Context context;
     private ImageButton btnHide;
     private ToggleButton pencil, pen, marker, color_black, color_red, color_green, color_blue, eraser;
@@ -28,10 +27,9 @@ public class CustomBottomToolbarFragment extends Fragment {
     private int savedColor; // to remember last used paint when using eraser (workaround)
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
-        context = activity.getApplicationContext();
+    public void onAttach(Context context) {
+        this.context = context;
+        super.onAttach(context);
     }
 
     @Nullable
@@ -48,6 +46,7 @@ public class CustomBottomToolbarFragment extends Fragment {
         color_green = (ToggleButton) view.findViewById(R.id.color_green);
         color_blue = (ToggleButton) view.findViewById(R.id.color_blue);
         eraser = (ToggleButton) view.findViewById(R.id.eraser);
+        drawingView = (DrawingView) getActivity().findViewById(R.id.drawing_canvas);
         currentColor = Color.BLACK;
         currentStyle = 12f;
         hideFragment();
@@ -55,18 +54,12 @@ public class CustomBottomToolbarFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        drawingView = (DrawingView) getActivity().findViewById(R.id.drawing_canvas);
-    }
-
     private void hideFragment() {
         btnHide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) activity).hideToolbarFragment();
-                ((MainActivity) activity).setButtonsVisible();
+                ((MainActivity) context).hideToolbarFragment();
+                ((MainActivity) context).setButtonsVisible();
             }
         });
     }
@@ -77,7 +70,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    pencil.setAlpha(0.5f);
+                    pencil.setAlpha(0.3f);
                     pen.setAlpha(1f);
                     marker.setAlpha(1f);
                     currentStyle = 6f;
@@ -96,7 +89,7 @@ public class CustomBottomToolbarFragment extends Fragment {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
                     pencil.setAlpha(1f);
-                    pen.setAlpha(0.5f);
+                    pen.setAlpha(0.3f);
                     marker.setAlpha(1f);
                     currentStyle = 12f;
                     updateDrawingTool();
@@ -115,7 +108,7 @@ public class CustomBottomToolbarFragment extends Fragment {
                 if (isChecked) {
                     pencil.setAlpha(1f);
                     pen.setAlpha(1f);
-                    marker.setAlpha(0.5f);
+                    marker.setAlpha(0.3f);
                     currentStyle = 18f;
                     updateDrawingTool();
                     pencil.setChecked(false);
@@ -131,7 +124,7 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    color_black.setAlpha(0.5f);
+                    color_black.setAlpha(0.3f);
                     color_red.setAlpha(1f);
                     color_green.setAlpha(1f);
                     color_blue.setAlpha(1f);
@@ -153,7 +146,7 @@ public class CustomBottomToolbarFragment extends Fragment {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
                     color_black.setAlpha(1f);
-                    color_red.setAlpha(0.5f);
+                    color_red.setAlpha(0.3f);
                     color_green.setAlpha(1f);
                     color_blue.setAlpha(1f);
                     currentColor = Color.RED;
@@ -175,7 +168,7 @@ public class CustomBottomToolbarFragment extends Fragment {
                 if (isChecked) {
                     color_black.setAlpha(1f);
                     color_red.setAlpha(1f);
-                    color_green.setAlpha(0.5f);
+                    color_green.setAlpha(0.3f);
                     color_blue.setAlpha(1f);
                     currentColor = Color.GREEN;
                     updateDrawingTool();
@@ -197,7 +190,7 @@ public class CustomBottomToolbarFragment extends Fragment {
                     color_black.setAlpha(1f);
                     color_red.setAlpha(1f);
                     color_green.setAlpha(1f);
-                    color_blue.setAlpha(0.5f);
+                    color_blue.setAlpha(0.3f);
                     currentColor = Color.BLUE;
                     updateDrawingTool();
                     color_black.setChecked(false);
@@ -215,7 +208,9 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    eraser.setAlpha(0.5f);
+                    Toast.makeText(context, "To use other settings turn off eraser",
+                            Toast.LENGTH_SHORT).show();
+                    eraser.setAlpha(0.3f);
                     savedColor = getCurrentColor();
                     currentColor = Color.TRANSPARENT;
                     eraserMode = true;

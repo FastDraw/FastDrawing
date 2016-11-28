@@ -11,14 +11,11 @@ import android.widget.TextView;
 class RecyclerViewForBackground extends RecyclerView.Adapter<RecyclerViewForBackground
         .View_Holder> {
 
-    private BackgroundSelectFragment bacground;
     private String[] web;
     private Integer[] img;
     private Context context;
 
-    RecyclerViewForBackground(BackgroundSelectFragment bacground, String[] web,
-                              Integer[] img) {
-        this.bacground = bacground;
+    RecyclerViewForBackground(String[] web, Integer[] img) {
         this.web = web;
         this.img = img;
     }

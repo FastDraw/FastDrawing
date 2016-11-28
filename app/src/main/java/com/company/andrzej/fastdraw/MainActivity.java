@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         checkStoragePermission();
         initViews();
         setUpListeners();
-        setButtonsEnabled(true);
         setRelativeLayoutBackground();
     }
 
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 Cursor cursor = getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
+                assert cursor != null;
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imgDecodableString = cursor.getString(columnIndex);
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
             grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_EXTERNAL_STORAGE:
