@@ -16,6 +16,7 @@
     <string name="hide_toolbar">Hide Toolbar</string>
     <string name="add_photo_from_gallery">Add photo from gallery</string>
     <string name="open_toolbar">Open toolbar</string>
+    <string name="instruction">Instruction</string>
     <string-array name="background_name">
         <item>Farm Land</item>
         <item>Scroll</item>

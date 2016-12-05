@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="toolbox_height">80dp</dimen>
     <dimen name="toolbox_icon_width">48dp</dimen>
+    <dimen name="margin_bottom_progress_splash">190dp</dimen>
 </resources>

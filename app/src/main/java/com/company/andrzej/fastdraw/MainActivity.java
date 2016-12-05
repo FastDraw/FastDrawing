@@ -264,6 +264,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void setButtonsEnabled(boolean ch) {
         acceptBtn.setEnabled(ch);
         clearBtn.setEnabled(ch);

@@ -19,7 +19,7 @@ public class DrawingView extends View {
     private static final int BLACK = 3;
     private static final int MEDIUM = 1;
     private static final float TOLERANCE = 5;
-    
+
     private Context context;
     private ArrayList<Path> paths;
     private Path lastPath;
