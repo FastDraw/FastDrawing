@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton acceptBtn, clearBtn, backgroundBtn, toogleToolbar, addPhotoBtn;
     private DrawingView drawingView;
+    private TextView waterMark;
     private BackgroundSelectFragment backgroundSelectFragment;
     private CustomBottomToolbarFragment customBottomToolbarFragment;
 
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         setUpListeners();
         setRelativeLayoutBackground();
+        waterMarkConfiguration();
     }
 
     public void loadImagefromGallery(View view) {
@@ -124,6 +127,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void waterMarkConfiguration() {
+        waterMark.setText(R.string.fast_drawing);
+        waterMark.setVisibility(View.INVISIBLE);
+        waterMark.setTextSize(16);
+        waterMark.setTextColor(getResources().getColor(R.color.black));
+    }
+
     private void showToolbarFragment() {
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
@@ -145,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
         backgroundBtn = (ImageButton) findViewById(R.id.btn_background);
         toogleToolbar = (ImageButton) findViewById(R.id.btn_toolbar);
         addPhotoBtn = (ImageButton) findViewById(R.id.btn_addphoto);
+        waterMark = (TextView) findViewById(R.id.water_mark);
     }
 
     private void setUpListeners() {
@@ -297,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
     private void takeAScreenshot() {
         setButtonsEnabled(false);
         setButtonsInvisible();
+        waterMark.setVisibility(View.VISIBLE);
         String uniqueID = UUID.randomUUID().toString();
         String mPath = android.os.Environment.getExternalStorageDirectory().toString()
                 + "/" + uniqueID + ".jpg";
@@ -329,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
                                         "Choose one"));
                                 setButtonsVisible();
                                 setButtonsEnabled(true);
+                                waterMark.setVisibility(View.INVISIBLE);
                             }
                         });
                     }

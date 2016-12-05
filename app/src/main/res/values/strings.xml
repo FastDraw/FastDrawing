@@ -17,6 +17,7 @@
     <string name="add_photo_from_gallery">Add photo from gallery</string>
     <string name="open_toolbar">Open toolbar</string>
     <string name="instruction">Instruction</string>
+    <string name="fast_drawing">FastDrawing</string>
     <string-array name="background_name">
         <item>Farm Land</item>
         <item>Scroll</item>
