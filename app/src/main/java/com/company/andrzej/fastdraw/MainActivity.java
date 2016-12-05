@@ -93,6 +93,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (backgroundSelectFragment.isVisible()) {
+            hideFragmentBackground();
+        } else if (customBottomToolbarFragment.isVisible()) {
+            hideToolbarFragment();
+            setButtonsVisible();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     public void changeBackground(int position) {
         if (position == 0) {
             relativeLayout.setBackgroundResource(R.drawable.farm);
@@ -273,12 +285,6 @@ public class MainActivity extends AppCompatActivity {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
                 break;
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 
     private void setButtonsEnabled(boolean ch) {
