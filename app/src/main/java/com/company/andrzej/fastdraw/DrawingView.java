@@ -7,14 +7,13 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
 
-public class DrawingView extends View {
+public class DrawingView extends View implements View.OnTouchListener {
 
     private static final int TRANSPARENT = 0;
     private static final int BLACK = 3;
@@ -31,10 +30,14 @@ public class DrawingView extends View {
     private ArrayList<Paint> usedPaints;
     private float mX, mY;
 
+    // LISTENER
+    private OnDrawViewListener onDrawViewListener;
+
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init();
+        setOnTouchListener(this);
     }
 
     private void init() {
@@ -105,6 +108,7 @@ public class DrawingView extends View {
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
+                onDrawViewListener.onMove(event);
                 float dx = Math.abs(pointX - mX);
                 float dy = Math.abs(pointY - mY);
                 if (dx >= TOLERANCE || dy >= TOLERANCE) {
@@ -151,5 +155,49 @@ public class DrawingView extends View {
         paths.add(new Path());
         lastPath = paths.get(paths.size() - 1);
         postInvalidate();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                onDrawViewListener.onMove(event); // added this line
+                //mDrawMoveHistory.get(mDrawMoveHistory.size() - 1).setEndX(event.getX()).setEndY(event.getY());
+
+                if (true) {
+                    //mDrawMoveHistory.get(mDrawMoveHistory.size() - 1).getDrawingPathList()
+                            //.get(mDrawMoveHistory.get(mDrawMoveHistory.size() - 1).getDrawingPathList().size() - 1)
+                            //.lineTo(event.getX(), event.getY());
+                }
+                invalidate();
+                break;
+        }
+        return true;
+    }
+
+    // NEW
+
+    public void setOnDrawViewListener(OnDrawViewListener onDrawViewListener) {
+        this.onDrawViewListener = onDrawViewListener;
+    }
+
+    public boolean getDrawingMode() {
+        return true;
+    }
+
+    public boolean getDrawWidth() {
+        return true;
+    }
+
+    public interface OnDrawViewListener {
+        void onStartDrawing();
+
+        void onMove(MotionEvent motionEvent);
+
+        void onEndDrawing();
+
+        void onClearDrawing();
+
+        void onRequestText();
     }
 }

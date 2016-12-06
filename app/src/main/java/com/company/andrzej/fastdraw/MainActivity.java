@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -21,9 +22,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -39,8 +42,9 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_EXTERNAL_STORAGE = 1;
-    private static final int CODE_WRITE_SETTINGS_PERMISSION = 2;
     private static int RESULT_LOAD_IMG = 1;
+
+    ImageView pointer;
 
     @BindView(R.id.main_relative)
     RelativeLayout relativeLayout;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
     private CustomBottomToolbarFragment customBottomToolbarFragment;
-    private Context context;
+    private boolean isIndicatorVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +63,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         checkStoragePermission();
-        //context = getApplication();
-        checkSettingsPermission();
         initViews();
+        isIndicatorVisible = false;
         setUpListeners();
         setRelativeLayoutBackground();
     }
@@ -153,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
         backgroundBtn = (ImageButton) findViewById(R.id.btn_background);
         toogleToolbar = (ImageButton) findViewById(R.id.btn_toolbar);
         addPhotoBtn = (ImageButton) findViewById(R.id.btn_addphoto);
+
+        pointer = (ImageView) findViewById(R.id.pointer);
     }
 
     private void setUpListeners() {
@@ -226,6 +231,59 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        drawingView.setOnDrawViewListener(new DrawingView.OnDrawViewListener() {
+
+            @Override
+            public void onStartDrawing() {
+                setIndicator(drawingView.getDrawingMode(), drawingView.getDrawWidth());
+            }
+
+            @Override
+            public void onMove(MotionEvent motionEvent) {
+                if (isIndicatorVisible) {
+                    pointer.animate()
+                            .x(motionEvent.getX())
+                            .y(motionEvent.getY())
+                            .setDuration(0)
+                            .start();
+                }
+
+            }
+
+            @Override
+            public void onEndDrawing() {
+                if (isIndicatorVisible) {
+                    pointer.setVisibility(View.GONE);
+                    isIndicatorVisible = false;
+                }
+            }
+
+            @Override
+            public void onClearDrawing() {
+
+            }
+
+            @Override
+            public void onRequestText() {
+
+            }
+        });
+    }
+
+    private void setIndicator(boolean drawingMode, boolean drawWidth) {
+        if (drawingMode == true) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 30);
+            pointer.setLayoutParams(params);
+            GradientDrawable border = new GradientDrawable();
+            border.setStroke(1, 0xFF000000); //black border with full opacity
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                pointer.setBackgroundDrawable(border);
+            } else {
+                pointer.setBackground(border);
+            }
+            pointer.setVisibility(View.VISIBLE);
+            isIndicatorVisible = true;
+        }
     }
 
     private void showFragmentBackground() {
@@ -254,29 +312,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // TODO works fine for API below 23, requires further testing for API 23
-    @TargetApi(23)
-    public void checkSettingsPermission() {
-        boolean permission;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            permission = Settings.System.canWrite(this);
-        } else {
-            permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED;
-        }
-        if (permission) {
-            Settings.System.putInt(this.getContentResolver(),
-                    "show_touches", 1);
-        }  else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                intent.setData(Uri.parse("package:" + this.getPackageName()));
-                this.startActivityForResult(intent, CODE_WRITE_SETTINGS_PERMISSION);
-            } else {
-                this.requestPermissions(new String[]{Manifest.permission.WRITE_SETTINGS}, MainActivity.CODE_WRITE_SETTINGS_PERMISSION);
-            }
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
             grantResults) {
@@ -289,15 +324,6 @@ public class MainActivity extends AppCompatActivity {
                             LENGTH_SHORT).show();
                 }
                 break;
-            // TEMP do not delete this code as it might be needed for API 23 permissions
-            //case CODE_WRITE_SETTINGS_PERMISSION:
-            //    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            //        Toast.makeText(this, "Thanks for your permission", LENGTH_SHORT).show();
-            //    } else {
-            //        Toast.makeText(this, "We need your permission to make pointer",
-            //                LENGTH_SHORT).show();
-            //    }
-            //    break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
                 break;
@@ -373,21 +399,5 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.bg);
         relativeLayout.setBackground(drawable);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // TEMP pointer turned off when activity is not on run (makes pointer visible only in the app window)
-        Settings.System.putInt(this.getContentResolver(),
-                "show_touches", 0);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // TEMP pointer turned on when activity is resumed
-        Settings.System.putInt(this.getContentResolver(),
-                "show_touches", 1);
     }
 }
