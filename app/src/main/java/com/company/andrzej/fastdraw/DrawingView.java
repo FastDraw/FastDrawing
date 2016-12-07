@@ -10,10 +10,11 @@ import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-public class DrawingView extends View implements View.OnTouchListener {
+public class DrawingView extends View /*implements View.OnTouchListener*/ {
 
     private static final int TRANSPARENT = 0;
     private static final int BLACK = 3;
@@ -29,15 +30,16 @@ public class DrawingView extends View implements View.OnTouchListener {
     private Paint currentPaint;
     private ArrayList<Paint> usedPaints;
     private float mX, mY;
+    private ImageView pointer;
 
     // LISTENER
-    private OnDrawViewListener onDrawViewListener;
+    //private OnDrawViewListener onDrawViewListener;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init();
-        setOnTouchListener(this);
+        //setOnTouchListener(this);
     }
 
     private void init() {
@@ -98,17 +100,22 @@ public class DrawingView extends View implements View.OnTouchListener {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
+        if (pointer == null) {
+            pointer = ((MainActivity) context).getPointer();
+        }
         float pointX = event.getX();
         float pointY = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                pointer.setVisibility(VISIBLE);
                 lastPath.moveTo(pointX, pointY);
                 mX = pointX;
                 mY = pointY;
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
-                onDrawViewListener.onMove(event);
+                //onDrawViewListener.onMove(event);
+                movePointer(event);
                 float dx = Math.abs(pointX - mX);
                 float dy = Math.abs(pointY - mY);
                 if (dx >= TOLERANCE || dy >= TOLERANCE) {
@@ -119,6 +126,7 @@ public class DrawingView extends View implements View.OnTouchListener {
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_UP:
+                pointer.setVisibility(VISIBLE);
                 lastPath.lineTo(mX, mY);
                 postInvalidate();
                 break;
@@ -126,6 +134,14 @@ public class DrawingView extends View implements View.OnTouchListener {
                 return false;
         }
         return true;
+    }
+
+    private void movePointer(MotionEvent event) {
+        pointer.animate()
+                .x(event.getX())
+                .y(event.getY())
+                .setDuration(0)
+                .start();
     }
 
     public void changeColorAndStyle(int color, float style, boolean eraser) {
@@ -157,7 +173,7 @@ public class DrawingView extends View implements View.OnTouchListener {
         postInvalidate();
     }
 
-    @Override
+    /*@Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:
@@ -173,23 +189,23 @@ public class DrawingView extends View implements View.OnTouchListener {
                 break;
         }
         return true;
-    }
+    }*/
 
     // NEW
 
-    public void setOnDrawViewListener(OnDrawViewListener onDrawViewListener) {
-        this.onDrawViewListener = onDrawViewListener;
-    }
+    //public void setOnDrawViewListener(OnDrawViewListener onDrawViewListener) {
+    //    this.onDrawViewListener = onDrawViewListener;
+    //}
 
-    public boolean getDrawingMode() {
+    /*public boolean getDrawingMode() {
         return true;
     }
 
     public boolean getDrawWidth() {
         return true;
-    }
+    }*/
 
-    public interface OnDrawViewListener {
+    /*public interface OnDrawViewListener {
         void onStartDrawing();
 
         void onMove(MotionEvent motionEvent);
@@ -199,5 +215,5 @@ public class DrawingView extends View implements View.OnTouchListener {
         void onClearDrawing();
 
         void onRequestText();
-    }
+    }*/
 }

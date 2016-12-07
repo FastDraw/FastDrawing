@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
     private CustomBottomToolbarFragment customBottomToolbarFragment;
-    private boolean isIndicatorVisible;
+    //private boolean isIndicatorVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         checkStoragePermission();
         initViews();
-        isIndicatorVisible = false;
+        //isIndicatorVisible = false;
         setUpListeners();
         setRelativeLayoutBackground();
     }
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        drawingView.setOnDrawViewListener(new DrawingView.OnDrawViewListener() {
+        /*drawingView.setOnDrawViewListener(new DrawingView.OnDrawViewListener() {
 
             @Override
             public void onStartDrawing() {
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
             public void onRequestText() {
 
             }
-        });
+        });*/
     }
 
     private void setIndicator(boolean drawingMode, boolean drawWidth) {
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
                 pointer.setBackground(border);
             }
             pointer.setVisibility(View.VISIBLE);
-            isIndicatorVisible = true;
+            //isIndicatorVisible = true;
         }
     }
 
@@ -399,5 +399,9 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.bg);
         relativeLayout.setBackground(drawable);
+    }
+
+    public ImageView getPointer() {
+        return (ImageView)findViewById(R.id.pointer);
     }
 }
