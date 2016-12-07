@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView waterMark;
     private BackgroundSelectFragment backgroundSelectFragment;
     private CustomBottomToolbarFragment customBottomToolbarFragment;
+    private SOSFragment sosFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +147,24 @@ public class MainActivity extends AppCompatActivity {
         waterMark.setTextColor(getResources().getColor(R.color.black));
     }
 
-    private void showToolbarFragment() {
+    public void openSOSFragment(){
+        sosFragment = new SOSFragment();
+        getFragmentManager().beginTransaction()
+                .add(R.id.main_relative, sosFragment, "sos")
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                .show(sosFragment)
+                .commit();
+    }
+
+    public void closeSOSFragment(){
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                .hide(sosFragment)
+                .commit();
+    }
+
+
+    public void showToolbarFragment() {
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                 .show(customBottomToolbarFragment)

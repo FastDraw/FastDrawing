@@ -9,12 +9,20 @@
     android:gravity="bottom"
     android:orientation="vertical">
 
+    <ImageButton
+        android:id="@+id/btn_hidefragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@mipmap/ic_keyboard_arrow_down_black_36dp"
+        android:contentDescription="@string/hide_toolbar" />
+
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:foregroundGravity="bottom"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:foregroundGravity="bottom">
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -120,15 +128,21 @@
                 android:textOff=""
                 android:textOn=""/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/vertical_line"
+                android:id="@+id/separator3"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/sos_screen"
+                android:id="@+id/sos_button"
+                android:layout_weight="1"/>
+
         </LinearLayout>
     </HorizontalScrollView>
-
-    <ImageButton
-        android:id="@+id/btn_hidefragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@mipmap/ic_keyboard_arrow_down_black_36dp"
-        android:contentDescription="@string/hide_toolbar" />
 
 </RelativeLayout>

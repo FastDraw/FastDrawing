@@ -18,7 +18,8 @@ import butterknife.ButterKnife;
 public class CustomBottomToolbarFragment extends Fragment {
 
     private Context context;
-    private ImageButton btnHide;
+    private SOSFragment sFragment;
+    private ImageButton btnHide, sosFragment;
     private ToggleButton pencil, pen, marker, color_black, color_red, color_green, color_blue, eraser;
     private DrawingView drawingView;
     private int currentColor;
@@ -47,11 +48,23 @@ public class CustomBottomToolbarFragment extends Fragment {
         color_blue = (ToggleButton) view.findViewById(R.id.color_blue);
         eraser = (ToggleButton) view.findViewById(R.id.eraser);
         drawingView = (DrawingView) getActivity().findViewById(R.id.drawing_canvas);
+        sosFragment = (ImageButton) view.findViewById(R.id.sos_button);
         currentColor = Color.BLACK;
         currentStyle = 12f;
         hideFragment();
         setButtonsListeners();
+        openSOSFragment();
         return view;
+    }
+
+    private void openSOSFragment(){
+        sosFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) context).hideToolbarFragment();
+                ((MainActivity) context).openSOSFragment();
+            }
+        });
     }
 
     private void hideFragment() {
