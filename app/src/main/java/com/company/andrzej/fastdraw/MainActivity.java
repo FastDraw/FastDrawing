@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_EXTERNAL_STORAGE = 1;
     private static int RESULT_LOAD_IMG = 1;
 
-    ImageView pointer;
-
     @BindView(R.id.main_relative)
     RelativeLayout relativeLayout;
 
@@ -53,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     private DrawingView drawingView;
     private BackgroundSelectFragment backgroundSelectFragment;
     private CustomBottomToolbarFragment customBottomToolbarFragment;
-    //private boolean isIndicatorVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         checkStoragePermission();
         initViews();
-        //isIndicatorVisible = false;
         setUpListeners();
         setRelativeLayoutBackground();
     }
@@ -156,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
         backgroundBtn = (ImageButton) findViewById(R.id.btn_background);
         toogleToolbar = (ImageButton) findViewById(R.id.btn_toolbar);
         addPhotoBtn = (ImageButton) findViewById(R.id.btn_addphoto);
-
-        pointer = (ImageView) findViewById(R.id.pointer);
     }
 
     private void setUpListeners() {
@@ -231,59 +225,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        /*drawingView.setOnDrawViewListener(new DrawingView.OnDrawViewListener() {
-
-            @Override
-            public void onStartDrawing() {
-                setIndicator(drawingView.getDrawingMode(), drawingView.getDrawWidth());
-            }
-
-            @Override
-            public void onMove(MotionEvent motionEvent) {
-                if (isIndicatorVisible) {
-                    pointer.animate()
-                            .x(motionEvent.getX())
-                            .y(motionEvent.getY())
-                            .setDuration(0)
-                            .start();
-                }
-
-            }
-
-            @Override
-            public void onEndDrawing() {
-                if (isIndicatorVisible) {
-                    pointer.setVisibility(View.GONE);
-                    isIndicatorVisible = false;
-                }
-            }
-
-            @Override
-            public void onClearDrawing() {
-
-            }
-
-            @Override
-            public void onRequestText() {
-
-            }
-        });*/
-    }
-
-    private void setIndicator(boolean drawingMode, boolean drawWidth) {
-        if (drawingMode == true) {
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 30);
-            pointer.setLayoutParams(params);
-            GradientDrawable border = new GradientDrawable();
-            border.setStroke(1, 0xFF000000); //black border with full opacity
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                pointer.setBackgroundDrawable(border);
-            } else {
-                pointer.setBackground(border);
-            }
-            pointer.setVisibility(View.VISIBLE);
-            //isIndicatorVisible = true;
-        }
     }
 
     private void showFragmentBackground() {

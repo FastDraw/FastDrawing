@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-public class DrawingView extends View /*implements View.OnTouchListener*/ {
+public class DrawingView extends View {
 
     private static final int TRANSPARENT = 0;
     private static final int BLACK = 3;
@@ -31,15 +31,13 @@ public class DrawingView extends View /*implements View.OnTouchListener*/ {
     private ArrayList<Paint> usedPaints;
     private float mX, mY;
     private ImageView pointer;
-
-    // LISTENER
-    //private OnDrawViewListener onDrawViewListener;
+    private float pointerXdelta;
+    private float pointerYdelta;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init();
-        //setOnTouchListener(this);
     }
 
     private void init() {
@@ -102,20 +100,27 @@ public class DrawingView extends View /*implements View.OnTouchListener*/ {
     public boolean onTouchEvent(MotionEvent event) {
         if (pointer == null) {
             pointer = ((MainActivity) context).getPointer();
+            pointerXdelta = pointer.getHeight()/2;
+            pointerYdelta = pointer.getWidth()/2;
         }
         float pointX = event.getX();
         float pointY = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 pointer.setVisibility(VISIBLE);
+                pointer.setX(pointX-pointerXdelta);
+                pointer.setY(pointY-pointerYdelta);
                 lastPath.moveTo(pointX, pointY);
                 mX = pointX;
                 mY = pointY;
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
-                //onDrawViewListener.onMove(event);
-                movePointer(event);
+                pointer.animate()
+                        .x(pointX-pointerXdelta)
+                        .y(pointY-pointerYdelta)
+                        .setDuration(0)
+                        .start();
                 float dx = Math.abs(pointX - mX);
                 float dy = Math.abs(pointY - mY);
                 if (dx >= TOLERANCE || dy >= TOLERANCE) {
@@ -126,7 +131,7 @@ public class DrawingView extends View /*implements View.OnTouchListener*/ {
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                pointer.setVisibility(VISIBLE);
+                pointer.setVisibility(INVISIBLE);
                 lastPath.lineTo(mX, mY);
                 postInvalidate();
                 break;
@@ -134,14 +139,6 @@ public class DrawingView extends View /*implements View.OnTouchListener*/ {
                 return false;
         }
         return true;
-    }
-
-    private void movePointer(MotionEvent event) {
-        pointer.animate()
-                .x(event.getX())
-                .y(event.getY())
-                .setDuration(0)
-                .start();
     }
 
     public void changeColorAndStyle(int color, float style, boolean eraser) {
@@ -172,48 +169,4 @@ public class DrawingView extends View /*implements View.OnTouchListener*/ {
         lastPath = paths.get(paths.size() - 1);
         postInvalidate();
     }
-
-    /*@Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-                onDrawViewListener.onMove(event); // added this line
-                //mDrawMoveHistory.get(mDrawMoveHistory.size() - 1).setEndX(event.getX()).setEndY(event.getY());
-
-                if (true) {
-                    //mDrawMoveHistory.get(mDrawMoveHistory.size() - 1).getDrawingPathList()
-                            //.get(mDrawMoveHistory.get(mDrawMoveHistory.size() - 1).getDrawingPathList().size() - 1)
-                            //.lineTo(event.getX(), event.getY());
-                }
-                invalidate();
-                break;
-        }
-        return true;
-    }*/
-
-    // NEW
-
-    //public void setOnDrawViewListener(OnDrawViewListener onDrawViewListener) {
-    //    this.onDrawViewListener = onDrawViewListener;
-    //}
-
-    /*public boolean getDrawingMode() {
-        return true;
-    }
-
-    public boolean getDrawWidth() {
-        return true;
-    }*/
-
-    /*public interface OnDrawViewListener {
-        void onStartDrawing();
-
-        void onMove(MotionEvent motionEvent);
-
-        void onEndDrawing();
-
-        void onClearDrawing();
-
-        void onRequestText();
-    }*/
 }
