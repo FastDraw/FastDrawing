@@ -10,6 +10,7 @@ import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,9 @@ public class DrawingView extends View {
     private Paint currentPaint;
     private ArrayList<Paint> usedPaints;
     private float mX, mY;
+    private ImageView pointer;
+    private float pointerXcenter;
+    private float pointerYcenter;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -94,16 +98,32 @@ public class DrawingView extends View {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
+        if (pointer == null) {
+            pointer = ((MainActivity) context).getPointer();
+        }
+        float scale = (currentPaint.getStrokeWidth() + 8) / pointer.getHeight();
+        pointer.setScaleX(scale);
+        pointer.setScaleY(scale);
+        pointerXcenter = pointer.getHeight() / 2;
+        pointerYcenter = pointer.getWidth() / 2;
         float pointX = event.getX();
         float pointY = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                pointer.setVisibility(VISIBLE);
+                pointer.setX(pointX - pointerXcenter);
+                pointer.setY(pointY - pointerYcenter);
                 lastPath.moveTo(pointX, pointY);
                 mX = pointX;
                 mY = pointY;
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
+                pointer.animate()
+                        .x(pointX - pointerXcenter)
+                        .y(pointY - pointerYcenter)
+                        .setDuration(0)
+                        .start();
                 float dx = Math.abs(pointX - mX);
                 float dy = Math.abs(pointY - mY);
                 if (dx >= TOLERANCE || dy >= TOLERANCE) {
@@ -114,6 +134,7 @@ public class DrawingView extends View {
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_UP:
+                pointer.setVisibility(INVISIBLE);
                 lastPath.lineTo(mX, mY);
                 postInvalidate();
                 break;
