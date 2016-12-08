@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (backgroundSelectFragment.isVisible()) {
+        if (backgroundSelectFragment != null && backgroundSelectFragment.isVisible()) {
             hideFragmentBackground();
-        } else if (customBottomToolbarFragment.isVisible()) {
+        } else if (customBottomToolbarFragment != null && customBottomToolbarFragment.isVisible()) {
             hideToolbarFragment();
             setButtonsVisible();
         } else {
