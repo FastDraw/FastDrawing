@@ -20,7 +20,7 @@ public class DrawingView extends View {
     private static final int BLACK = 3;
     private static final int MEDIUM = 1;
     private static final float TOLERANCE = 5;
-    
+
     private Context context;
     private ArrayList<Path> paths;
     private Path lastPath;
@@ -31,8 +31,8 @@ public class DrawingView extends View {
     private ArrayList<Paint> usedPaints;
     private float mX, mY;
     private ImageView pointer;
-    private float pointerXdelta;
-    private float pointerYdelta;
+    private float pointerXcenter;
+    private float pointerYcenter;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -100,16 +100,19 @@ public class DrawingView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         if (pointer == null) {
             pointer = ((MainActivity) context).getPointer();
-            pointerXdelta = pointer.getHeight()/2;
-            pointerYdelta = pointer.getWidth()/2;
         }
+        float scale = (currentPaint.getStrokeWidth() + 8) / pointer.getHeight();
+        pointer.setScaleX(scale);
+        pointer.setScaleY(scale);
+        pointerXcenter = pointer.getHeight() / 2;
+        pointerYcenter = pointer.getWidth() / 2;
         float pointX = event.getX();
         float pointY = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 pointer.setVisibility(VISIBLE);
-                pointer.setX(pointX-pointerXdelta);
-                pointer.setY(pointY-pointerYdelta);
+                pointer.setX(pointX - pointerXcenter);
+                pointer.setY(pointY - pointerYcenter);
                 lastPath.moveTo(pointX, pointY);
                 mX = pointX;
                 mY = pointY;
@@ -117,8 +120,8 @@ public class DrawingView extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 pointer.animate()
-                        .x(pointX-pointerXdelta)
-                        .y(pointY-pointerYdelta)
+                        .x(pointX - pointerXcenter)
+                        .y(pointY - pointerYcenter)
                         .setDuration(0)
                         .start();
                 float dx = Math.abs(pointX - mX);
