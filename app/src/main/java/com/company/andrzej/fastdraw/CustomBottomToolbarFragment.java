@@ -1,8 +1,10 @@
 package com.company.andrzej.fastdraw;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -31,6 +33,17 @@ public class CustomBottomToolbarFragment extends Fragment {
     public void onAttach(Context context) {
         this.context = context;
         super.onAttach(context);
+    }
+
+    // onAttach(Activity) was deprecated with API 23, but new onAttach(Context) doesn't work with API<23 in this form
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            this.context = activity;
+        }
     }
 
     @Nullable

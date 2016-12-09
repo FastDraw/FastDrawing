@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (backgroundSelectFragment.isVisible()) {
+        if (backgroundSelectFragment != null && backgroundSelectFragment.isVisible()) {
             hideFragmentBackground();
-        } else if (customBottomToolbarFragment.isVisible()) {
+        } else if (customBottomToolbarFragment != null && customBottomToolbarFragment.isVisible()) {
             hideToolbarFragment();
             setButtonsVisible();
         } else {
@@ -376,5 +377,9 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.bg);
         relativeLayout.setBackground(drawable);
+    }
+
+    public ImageView getPointer() {
+        return (ImageView)findViewById(R.id.pointer);
     }
 }
