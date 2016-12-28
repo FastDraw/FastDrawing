@@ -11,8 +11,8 @@ import android.widget.Button;
 
 public class SOSFragment extends Fragment {
 
-    private Button btn_sos, btn_exit;
     private Context context;
+    private SOSModule sosModule;
 
     public SOSFragment() {
     }
@@ -27,8 +27,10 @@ public class SOSFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sos, container, false);
-        btn_exit = (Button) view.findViewById(R.id.btn_exit);
-
+        Button btn_exit = (Button) view.findViewById(R.id.btn_exit);
+        Button btn_sos = (Button) view.findViewById(R.id.btn_sos);
+        sosModule = new SOSModule();
+        ((MainActivity) context).checkCameraPermission();
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,6 +38,19 @@ public class SOSFragment extends Fragment {
                 ((MainActivity) context).showToolbarFragment();
             }
         });
+        btn_sos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+                    sosModule.flash_effect();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
         return view;
+
     }
 }

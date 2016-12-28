@@ -37,6 +37,7 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_EXTERNAL_STORAGE = 1;
+    private static final int REQUEST_CODE_CAMERA = 2;
     private static int RESULT_LOAD_IMG = 1;
 
     @BindView(R.id.main_relative)
@@ -277,6 +278,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @TargetApi(23)
+    public void checkCameraPermission(){
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            return;
+        }
+        if (this.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
+        }
+    }
+
+    @TargetApi(23)
     public void checkStoragePermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return;
@@ -300,6 +311,13 @@ public class MainActivity extends AppCompatActivity {
                             LENGTH_SHORT).show();
                 }
                 break;
+            case REQUEST_CODE_CAMERA:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "Thanks for your permission", LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "We need your permission to start SOS",
+                            LENGTH_SHORT).show();
+                }
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
                 break;
