@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         setBackgroundofSplash();
         handlerTimeofSplash();
     }
-    
+
     private void setBackgroundofSplash(){
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_splash);
         relativeLayout.setBackgroundResource(R.drawable.splash_bg);

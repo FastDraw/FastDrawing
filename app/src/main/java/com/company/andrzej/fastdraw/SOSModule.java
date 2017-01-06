@@ -3,34 +3,58 @@ package com.company.andrzej.fastdraw;
 import android.hardware.Camera;
 
 class SOSModule {
-    private Camera cam;
-    public void flash_effect() throws InterruptedException
-    {
-        cam = Camera.open();
-        final Camera.Parameters p = cam.getParameters();
-        p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+    private Camera camera;
+    private Camera.Parameters params;
+    private boolean isFlashOn;
 
-        Thread a = new Thread()
-        {
-            public void run()
-            {
-                for(int i =0; i < 10; i++)
-                {
-                    try {
-                        cam.setParameters(p);
-                        cam.startPreview();
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+    void blink(final int delay, final int times) {
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int i=0; i < times*2; i++) {
+                        if (isFlashOn) {
+                            turnOnFlash();
+                        } else {
+                            turnOnFlash();
+                        }
+                        Thread.sleep(delay);
                     }
-                    cam.stopPreview();
-
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
-        };
-        a.start();
-    }}
+        });
+        t.start();
+
+    }
+    private void turnOnFlash() {
+        if (!isFlashOn) {
+            if (camera == null || params == null) {
+                return;
+            }
+            params = camera.getParameters();
+            params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            camera.setParameters(params);
+            camera.startPreview();
+            isFlashOn = true;
+        }
+    }
+
+    private void turnOffFlash() {
+        if (isFlashOn) {
+            if (camera == null || params == null) {
+                return;
+            }
+            params = camera.getParameters();
+            params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+            camera.setParameters(params);
+            camera.stopPreview();
+            isFlashOn = false;
+        }
+    }
+    }
 
 
 
