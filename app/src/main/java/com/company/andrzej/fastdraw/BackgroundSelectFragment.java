@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,29 +22,21 @@ public class BackgroundSelectFragment extends Fragment {
     private String[] web;
     private RecyclerView recyclerView;
 
-    //ToDo try to add integer-array and initialize it
-    Integer[] imageID = {
-            R.drawable.farm_small,
-            R.drawable.scroll_small,
-            R.drawable.desert_small,
-            R.drawable.bg_blue_small,
-            R.drawable.city_small,
-            R.drawable.clip_small,
-            R.drawable.grass_small,
-            R.drawable.green_leaves_small,
-            R.drawable.moon_landscape_small,
-            R.drawable.prismatic_floruish_small,
-            R.drawable.technologic_small,
-            R.drawable.white_small,
-            R.drawable.red_small,
-            R.drawable.bllue_small,
-            R.drawable.yellow_small
-    };
+    private int[] drawableResources() {
+        TypedArray ar = context.getResources().obtainTypedArray(R.array.drawable_positions);
+        int len = ar.length();
+        int[] imageID = new int[len];
+        for (int i = 0; i < len; i++)
+            imageID[i] = ar.getResourceId(i, 0);
+        ar.recycle();;
+        return imageID;
+    }
 
-    private void initStringResources() {
+    public void initStringResources() {
         Resources res;
         res = context.getResources();
         web = res.getStringArray(R.array.background_name);
+
     }
 
     @Override
@@ -74,12 +67,12 @@ public class BackgroundSelectFragment extends Fragment {
         return view;
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewForBackground mAdapter = new RecyclerViewForBackground(web, imageID);
+        RecyclerViewForBackground mAdapter = new RecyclerViewForBackground(web, drawableResources());
         recyclerView.setAdapter(mAdapter);
     }
 }

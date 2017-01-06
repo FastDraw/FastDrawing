@@ -12,10 +12,10 @@ class RecyclerViewForBackground extends RecyclerView.Adapter<RecyclerViewForBack
         .View_Holder> {
 
     private String[] web;
-    private Integer[] img;
+    private int[] img;
     private Context context;
 
-    RecyclerViewForBackground(String[] web, Integer[] img) {
+    RecyclerViewForBackground(String[] web, int[] img) {
         this.web = web;
         this.img = img;
     }

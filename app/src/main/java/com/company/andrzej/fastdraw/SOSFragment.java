@@ -41,12 +41,8 @@ public class SOSFragment extends Fragment {
         btn_sos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    sosModule.blink(100, 50);
 
-                try {
-                    sosModule.flash_effect();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
             }
         });
