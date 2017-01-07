@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
 
     <ImageButton
         android:id="@+id/btn_accept"
@@ -19,7 +20,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:background="@mipmap/ic_done_black_36dp"
-        android:contentDescription="@string/accept" />
+        android:contentDescription="@string/accept"
+        android:layout_alignParentRight="true" />
 
     <ImageButton
         android:id="@+id/btn_clear"
@@ -28,7 +30,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:background="@mipmap/ic_clear_black_36dp"
-        android:contentDescription="@string/clear" />
+        android:contentDescription="@string/clear"
+        android:layout_alignParentLeft="true" />
 
     <ImageButton
         android:id="@+id/btn_background"
@@ -37,7 +40,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:background="@mipmap/ic_screen_share_black_36dp"
-        android:contentDescription="@string/background" />
+        android:contentDescription="@string/background"
+        android:layout_alignParentRight="true" />
 
     <ImageButton
         android:id="@+id/btn_toolbar"
@@ -57,7 +61,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/ic_add_a_photo_black_24dp"
-        android:contentDescription="@string/add_photo_from_gallery" />
+        android:contentDescription="@string/add_photo_from_gallery"
+        android:layout_alignRight="@+id/btn_clear"
+        android:layout_alignParentLeft="true" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -68,11 +74,12 @@
         android:id="@+id/pointer"
         android:visibility="invisible"/>
         
-        <TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/water_mark"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
         
 </RelativeLayout>

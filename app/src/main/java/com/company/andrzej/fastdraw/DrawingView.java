@@ -155,15 +155,18 @@ public class DrawingView extends View {
             i++;
         }
         int j = 0;
-        while (!styles[j].equals(style)) {
-            if (styles.length == j + 1) {
-                // invalid style sent from Toolbar - shouldn't ever happen
-                break;
+        if (!eraser) {
+            while (!styles[j].equals(style)) {
+                if (styles.length == j + 1) {
+                    // invalid style sent from Toolbar - shouldn't ever happen
+                    break;
+                }
+                j++;
             }
-            j++;
         }
         currentPaint = paints.get(3 * i + j);
         if (eraser) {
+            currentPaint.setStrokeWidth(style);
             // sets layer for transparent currentPaint
             Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
             setLayerType(LAYER_TYPE_HARDWARE, q);

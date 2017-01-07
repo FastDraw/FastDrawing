@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -23,6 +24,7 @@ public class CustomBottomToolbarFragment extends Fragment {
     private SOSFragment sFragment;
     private ImageButton btnHide, sosFragment;
     private ToggleButton pencil, pen, marker, color_black, color_red, color_green, color_blue, eraser;
+    private SeekBar eraserSeekBar;
     private DrawingView drawingView;
     private int currentColor;
     private float currentStyle;
@@ -60,6 +62,7 @@ public class CustomBottomToolbarFragment extends Fragment {
         color_green = (ToggleButton) view.findViewById(R.id.color_green);
         color_blue = (ToggleButton) view.findViewById(R.id.color_blue);
         eraser = (ToggleButton) view.findViewById(R.id.eraser);
+        eraserSeekBar = (SeekBar) view.findViewById(R.id.eraserSeekBar);
         drawingView = (DrawingView) getActivity().findViewById(R.id.drawing_canvas);
         sosFragment = (ImageButton) view.findViewById(R.id.sos_button);
         currentColor = Color.BLACK;
@@ -237,13 +240,15 @@ public class CustomBottomToolbarFragment extends Fragment {
                     Toast.makeText(context, "To use other settings turn off eraser",
                             Toast.LENGTH_SHORT).show();
                     eraser.setAlpha(0.3f);
+                    eraserSeekBar.setVisibility(View.VISIBLE);
                     savedColor = getCurrentColor();
                     currentColor = Color.TRANSPARENT;
                     eraserMode = true;
-                    updateDrawingTool();
+                    updateDrawingTool(eraserSeekBar.getProgress());
                     setButtonsEnabled(false);
                 } else {
                     eraser.setAlpha(1f);
+                    eraserSeekBar.setVisibility(View.INVISIBLE);
                     currentColor = getSavedColor();
                     eraserMode = false;
                     updateDrawingTool();
@@ -265,6 +270,10 @@ public class CustomBottomToolbarFragment extends Fragment {
 
     void updateDrawingTool() {
         drawingView.changeColorAndStyle(currentColor, currentStyle, eraserMode);
+    }
+
+    void updateDrawingTool(int style) {
+        drawingView.changeColorAndStyle(currentColor, style+15, eraserMode);
     }
 
     public int getCurrentColor() {
