@@ -255,6 +255,25 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setButtonsEnabled(true);
                 }
             }
+
+
+        });
+        eraserSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                updateDrawingTool(progress);
+                System.out.print("X");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
         });
     }
 
@@ -269,11 +288,12 @@ public class CustomBottomToolbarFragment extends Fragment {
     }
 
     void updateDrawingTool() {
-        drawingView.changeColorAndStyle(currentColor, currentStyle, eraserMode);
+        drawingView.changeColorAndStyle(currentColor, currentStyle);//, eraserMode);
     }
 
     void updateDrawingTool(int style) {
-        drawingView.changeColorAndStyle(currentColor, style+15, eraserMode);
+        drawingView.erase(style+15);
+        //drawingView.changeColorAndStyle(currentColor, style+15, eraserMode);
     }
 
     public int getCurrentColor() {

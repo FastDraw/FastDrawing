@@ -144,7 +144,7 @@ public class DrawingView extends View {
         return true;
     }
 
-    public void changeColorAndStyle(int color, float style, boolean eraser) {
+    public void changeColorAndStyle(int color, float style){//}, boolean eraser) {
         // TODO change method to not create different paint but use predefined instead
         int i = 0;
         while (!colors[i].equals(color)) {
@@ -155,7 +155,7 @@ public class DrawingView extends View {
             i++;
         }
         int j = 0;
-        if (!eraser) {
+        //if (!eraser) {
             while (!styles[j].equals(style)) {
                 if (styles.length == j + 1) {
                     // invalid style sent from Toolbar - shouldn't ever happen
@@ -163,16 +163,28 @@ public class DrawingView extends View {
                 }
                 j++;
             }
-        }
+        //}
         currentPaint = paints.get(3 * i + j);
-        if (eraser) {
-            currentPaint.setStrokeWidth(style);
-            // sets layer for transparent currentPaint
-            Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
-            setLayerType(LAYER_TYPE_HARDWARE, q);
-        }
+        //if (eraser) {
+        //    currentPaint.setStrokeWidth(style);
+        //    // sets layer for transparent currentPaint
+        //    Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //    setLayerType(LAYER_TYPE_HARDWARE, q);
+        //}
         paths.add(new Path());
         lastPath = paths.get(paths.size() - 1);
+        postInvalidate();
+    }
+
+    public void erase(float style) {
+        currentPaint = paints.get(TRANSPARENT);
+        currentPaint.setStrokeWidth(style);
+        // sets layer for transparent currentPaint
+        Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
+        setLayerType(LAYER_TYPE_HARDWARE, q);
+        paths.add(new Path());
+        lastPath = paths.get(paths.size() - 1);
+        usedPaints.add(currentPaint);
         postInvalidate();
     }
 }
