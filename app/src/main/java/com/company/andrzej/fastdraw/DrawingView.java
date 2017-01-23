@@ -25,6 +25,7 @@ public class DrawingView extends View {
     private ArrayList<Path> paths;
     private Path lastPath;
     private ArrayList<Paint> paints;
+    private ArrayList<Paint> erasers;
     private Integer[] colors;
     private Float[] styles;
     private Paint currentPaint;
@@ -45,8 +46,10 @@ public class DrawingView extends View {
         paths.add(new Path());
         lastPath = paths.get(paths.size() - 1);
         paints = new ArrayList<>();
+        erasers = new ArrayList<>();
         usedPaints = new ArrayList<>();
         initColorsAndStyles();
+        initErasers();
         currentPaint = paints.get(BLACK + MEDIUM);
     }
 
@@ -65,6 +68,25 @@ public class DrawingView extends View {
                 }
                 paintInit(p);
                 paints.add(p);
+            }
+        }
+    }
+
+    private void initErasers() {
+        colors = new Integer[]{Color.TRANSPARENT};
+        styles = new Float[]{15f,16f,17f,18f,19f,20f,21f,22f,23f,24f,25f,26f,27f,28f,29f,30f,31f,32f,33f,34f,35f};
+        for (int i = 0; i < colors.length; i++) {
+            for (Float style : styles) {
+                Paint p = new Paint();
+                p.setColor(colors[i]);
+                p.setStrokeWidth(style);
+                if (i == TRANSPARENT) {
+                    p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                } else {
+                    p.setXfermode(null);
+                }
+                paintInit(p);
+                erasers.add(p);
             }
         }
     }
@@ -176,15 +198,15 @@ public class DrawingView extends View {
         postInvalidate();
     }
 
-    public void erase(float style) {
-        currentPaint = paints.get(TRANSPARENT);
-        currentPaint.setStrokeWidth(style);
+    public void erase(int style) {
+        currentPaint = erasers.get(style);
+        //currentPaint.setStrokeWidth(style);
         // sets layer for transparent currentPaint
         Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
         setLayerType(LAYER_TYPE_HARDWARE, q);
         paths.add(new Path());
         lastPath = paths.get(paths.size() - 1);
-        usedPaints.add(currentPaint);
+        //usedPaints.add(currentPaint);
         postInvalidate();
     }
 }

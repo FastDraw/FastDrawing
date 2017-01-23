@@ -247,6 +247,7 @@ public class CustomBottomToolbarFragment extends Fragment {
                     updateDrawingTool(eraserSeekBar.getProgress());
                     setButtonsEnabled(false);
                 } else {
+                    // TODO wyłączyć blokowanie ołówków i kolorów i włączyć blokowanie gumki
                     eraser.setAlpha(1f);
                     eraserSeekBar.setVisibility(View.INVISIBLE);
                     currentColor = getSavedColor();
@@ -292,7 +293,7 @@ public class CustomBottomToolbarFragment extends Fragment {
     }
 
     void updateDrawingTool(int style) {
-        drawingView.erase(style+15);
+        drawingView.erase(style);
         //drawingView.changeColorAndStyle(currentColor, style+15, eraserMode);
     }
 
