@@ -28,7 +28,6 @@ public class CustomBottomToolbarFragment extends Fragment {
     private DrawingView drawingView;
     private int currentColor;
     private float currentStyle;
-    private boolean eraserMode;
     private int savedColor; // to remember last used paint when using eraser (workaround)
 
     @Override
@@ -243,15 +242,13 @@ public class CustomBottomToolbarFragment extends Fragment {
                     eraserSeekBar.setVisibility(View.VISIBLE);
                     savedColor = getCurrentColor();
                     currentColor = Color.TRANSPARENT;
-                    eraserMode = true;
                     updateDrawingTool(eraserSeekBar.getProgress());
                     setButtonsEnabled(false);
                 } else {
-                    // TODO wyłączyć blokowanie ołówków i kolorów i włączyć blokowanie gumki
+                    // TODO remove blocking pens when eraser is on (set erazer the same way as it was transparent pen)
                     eraser.setAlpha(1f);
                     eraserSeekBar.setVisibility(View.INVISIBLE);
                     currentColor = getSavedColor();
-                    eraserMode = false;
                     updateDrawingTool();
                     setButtonsEnabled(true);
                 }
@@ -262,8 +259,7 @@ public class CustomBottomToolbarFragment extends Fragment {
         eraserSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                updateDrawingTool(progress);
-                System.out.print("X");
+
             }
 
             @Override
@@ -273,7 +269,7 @@ public class CustomBottomToolbarFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                updateDrawingTool(seekBar.getProgress());
             }
         });
     }
@@ -289,12 +285,11 @@ public class CustomBottomToolbarFragment extends Fragment {
     }
 
     void updateDrawingTool() {
-        drawingView.changeColorAndStyle(currentColor, currentStyle);//, eraserMode);
+        drawingView.changeColorAndStyle(currentColor, currentStyle);
     }
 
     void updateDrawingTool(int style) {
         drawingView.erase(style);
-        //drawingView.changeColorAndStyle(currentColor, style+15, eraserMode);
     }
 
     public int getCurrentColor() {

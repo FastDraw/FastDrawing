@@ -27,7 +27,9 @@ public class DrawingView extends View {
     private ArrayList<Paint> paints;
     private ArrayList<Paint> erasers;
     private Integer[] colors;
+    private Integer[] eraserColors;
     private Float[] styles;
+    private Float[] eraserStyles;
     private Paint currentPaint;
     private ArrayList<Paint> usedPaints;
     private float mX, mY;
@@ -73,12 +75,12 @@ public class DrawingView extends View {
     }
 
     private void initErasers() {
-        colors = new Integer[]{Color.TRANSPARENT};
-        styles = new Float[]{15f,16f,17f,18f,19f,20f,21f,22f,23f,24f,25f,26f,27f,28f,29f,30f,31f,32f,33f,34f,35f};
-        for (int i = 0; i < colors.length; i++) {
-            for (Float style : styles) {
+        eraserColors = new Integer[]{Color.TRANSPARENT};
+        eraserStyles = new Float[]{15f,16f,17f,18f,19f,20f,21f,22f,23f,24f,25f,26f,27f,28f,29f,30f,31f,32f,33f,34f,35f};
+        for (int i = 0; i < eraserColors.length; i++) {
+            for (Float style : eraserStyles) {
                 Paint p = new Paint();
-                p.setColor(colors[i]);
+                p.setColor(eraserColors[i]);
                 p.setStrokeWidth(style);
                 if (i == TRANSPARENT) {
                     p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -177,22 +179,14 @@ public class DrawingView extends View {
             i++;
         }
         int j = 0;
-        //if (!eraser) {
-            while (!styles[j].equals(style)) {
-                if (styles.length == j + 1) {
-                    // invalid style sent from Toolbar - shouldn't ever happen
-                    break;
-                }
-                j++;
+        while (!styles[j].equals(style)) {
+            if (styles.length == j + 1) {
+                // invalid style sent from Toolbar - shouldn't ever happen
+                break;
             }
-        //}
+            j++;
+        }
         currentPaint = paints.get(3 * i + j);
-        //if (eraser) {
-        //    currentPaint.setStrokeWidth(style);
-        //    // sets layer for transparent currentPaint
-        //    Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
-        //    setLayerType(LAYER_TYPE_HARDWARE, q);
-        //}
         paths.add(new Path());
         lastPath = paths.get(paths.size() - 1);
         postInvalidate();
@@ -200,13 +194,10 @@ public class DrawingView extends View {
 
     public void erase(int style) {
         currentPaint = erasers.get(style);
-        //currentPaint.setStrokeWidth(style);
-        // sets layer for transparent currentPaint
         Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
         setLayerType(LAYER_TYPE_HARDWARE, q);
         paths.add(new Path());
         lastPath = paths.get(paths.size() - 1);
-        //usedPaints.add(currentPaint);
         postInvalidate();
     }
 }
