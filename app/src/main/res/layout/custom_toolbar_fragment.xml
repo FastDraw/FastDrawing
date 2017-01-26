@@ -146,6 +146,29 @@
 
             <ImageButton
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@mipmap/arrow_left_thick"
+                android:id="@+id/undo_button"
+                android:layout_weight="1"
+                android:alpha="0.3" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@mipmap/arrow_right_thick"
+                android:id="@+id/forward_button"
+                android:layout_weight="1"
+                android:alpha="0.3" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/vertical_line"
+                android:id="@+id/separator4"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/sos_screen"
                 android:id="@+id/sos_button"

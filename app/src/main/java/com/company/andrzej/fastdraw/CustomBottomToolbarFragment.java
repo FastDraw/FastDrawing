@@ -22,7 +22,7 @@ public class CustomBottomToolbarFragment extends Fragment {
 
     private Context context;
     private SOSFragment sFragment;
-    private ImageButton btnHide, sosFragment;
+    private ImageButton btnHide, undoBtn, forwardBtn, sosFragment;
     private ToggleButton pencil, pen, marker, color_black, color_red, color_green, color_blue, eraser;
     private SeekBar eraserSeekBar;
     private DrawingView drawingView;
@@ -62,6 +62,8 @@ public class CustomBottomToolbarFragment extends Fragment {
         color_blue = (ToggleButton) view.findViewById(R.id.color_blue);
         eraser = (ToggleButton) view.findViewById(R.id.eraser);
         eraserSeekBar = (SeekBar) view.findViewById(R.id.eraserSeekBar);
+        undoBtn = (ImageButton) view.findViewById(R.id.undo_button);
+        forwardBtn = (ImageButton) view.findViewById(R.id.forward_button);
         drawingView = (DrawingView) getActivity().findViewById(R.id.drawing_canvas);
         sosFragment = (ImageButton) view.findViewById(R.id.sos_button);
         currentColor = Color.BLACK;
@@ -270,6 +272,25 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 updateDrawingTool(seekBar.getProgress());
+            }
+        });
+        undoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //drawingView.undo();
+                undoBtn.setEnabled(false);
+                undoBtn.setAlpha(0.3f);
+                forwardBtn.setEnabled(true);
+                forwardBtn.setAlpha(1f);
+            }
+        });
+        forwardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forwardBtn.setEnabled(false);
+                forwardBtn.setAlpha(0.3f);
+                undoBtn.setEnabled(true);
+                undoBtn.setAlpha(1f);
             }
         });
     }

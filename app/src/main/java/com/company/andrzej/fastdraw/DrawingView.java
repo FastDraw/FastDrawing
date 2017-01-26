@@ -200,4 +200,10 @@ public class DrawingView extends View {
         lastPath = paths.get(paths.size() - 1);
         postInvalidate();
     }
+
+    public void undo() {
+        paths.remove(paths.get(paths.size()-1));
+        usedPaints.remove(usedPaints.get(usedPaints.size()-1));
+        postInvalidate();
+    }
 }
