@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="splash_quotes">
+        <item>@string/splash_1_quote</item>
+        <item>@string/splash_2_quote</item>
+        <item>@string/splash_3_quote</item>
+        <item>@string/splash_4_quote</item>
+    </string-array>
+
+    <string-array name="splash_authors">
+        <item>@string/splash_1_author</item>
+        <item>@string/splash_2_author</item>
+        <item>@string/splash_3_author</item>
+        <item>@string/splash_4_author</item>
+    </string-array>
+
+    <integer-array name="splash_images">
+        <item>@drawable/splash_emoticon_1</item>
+        <item>@drawable/splash_emoticon_2</item>
+        <item>@drawable/splash_emoticon_3</item>
+        <item>@drawable/splash_emoticon_4</item>
+    </integer-array>
+
+
+
+</resources>

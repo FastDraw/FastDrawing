@@ -53,9 +53,20 @@
         <item>@drawable/yellow_small</item>
     </integer-array>
 
+    <string name="splash_1_quote">\"I was looking for such a simple application and finally found it. It helps me every day.\"</string>
+    <string name="splash_1_author">-ANDREW</string>
+    <string name="splash_2_quote">\"Great app for quick notes presented in a visually interesting way.\"</string>
+    <string name="splash_2_author">-KATE</string>
+    <string name="splash_3_quote">\"Brilliant app highly recommended.\"</string>
+    <string name="splash_3_author">-PAUL</string>
+    <string name="splash_4_quote">\"Easy to use, what more could you want?\"</string>
+    <string name="splash_4_author">-MIKE</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sos_information">Welcome in SOS moduel, once when u get trap and needed help, just click the button for start make signal SOS</string>
     <string name="button">Button</string>
     <string name="exit">Exit</string>
+    <string name="start">START</string>
 </resources>
