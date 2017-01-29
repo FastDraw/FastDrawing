@@ -277,7 +277,7 @@ public class CustomBottomToolbarFragment extends Fragment {
         undoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //drawingView.undo();
+                drawingView.undo();
                 undoBtn.setEnabled(false);
                 undoBtn.setAlpha(0.3f);
                 forwardBtn.setEnabled(true);

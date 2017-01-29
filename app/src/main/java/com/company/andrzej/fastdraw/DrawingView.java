@@ -36,11 +36,13 @@ public class DrawingView extends View {
     private ImageView pointer;
     private float pointerXcenter;
     private float pointerYcenter;
+    private boolean undoFlag;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init();
+        undoFlag = false;
     }
 
     private void init() {
@@ -114,7 +116,10 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (usedPaints.size() == 0 || usedPaints.get(usedPaints.size() - 1) != currentPaint) {
-            usedPaints.add(currentPaint);
+            if (!undoFlag) {
+                usedPaints.add(currentPaint);
+            }
+
         }
         for (Path p : paths) {
             canvas.drawPath(p, usedPaints.get(paths.indexOf(p)));
@@ -124,6 +129,11 @@ public class DrawingView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         if (pointer == null) {
             pointer = ((MainActivity) context).getPointer();
+        }
+        if (undoFlag){
+            paths.add(new Path());
+            lastPath = paths.get(paths.size() - 1);
+            undoFlag = false;
         }
         float scale = (currentPaint.getStrokeWidth() + 8) / pointer.getHeight();
         pointer.setScaleX(scale);
@@ -203,7 +213,9 @@ public class DrawingView extends View {
 
     public void undo() {
         paths.remove(paths.get(paths.size()-1));
+        lastPath = paths.get(paths.size()-1);
         usedPaints.remove(usedPaints.get(usedPaints.size()-1));
+        undoFlag = true;
         postInvalidate();
     }
 }
