@@ -28,7 +28,7 @@ public class BackgroundSelectFragment extends Fragment {
         int[] imageID = new int[len];
         for (int i = 0; i < len; i++)
             imageID[i] = ar.getResourceId(i, 0);
-        ar.recycle();;
+        ar.recycle();
         return imageID;
     }
 
