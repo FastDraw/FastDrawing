@@ -150,7 +150,7 @@
                 app:srcCompat="@mipmap/arrow_left_thick"
                 android:id="@+id/undo_button"
                 android:layout_weight="1"
-                android:alpha="0.3" />
+                android:alpha="1" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                 app:srcCompat="@mipmap/arrow_right_thick"
                 android:id="@+id/forward_button"
                 android:layout_weight="1"
-                android:alpha="0.3" />
+                android:alpha="1" />
 
             <ImageView
                 android:layout_width="wrap_content"

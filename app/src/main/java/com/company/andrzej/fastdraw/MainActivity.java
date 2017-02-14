@@ -238,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // TODO Ask user if he/she is sure as this cannot be undone
                 drawingView.resetCanvas();
             }
         });

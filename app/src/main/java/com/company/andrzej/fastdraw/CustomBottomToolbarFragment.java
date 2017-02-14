@@ -277,20 +277,23 @@ public class CustomBottomToolbarFragment extends Fragment {
         undoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawingView.undo();
-                undoBtn.setEnabled(false);
-                undoBtn.setAlpha(0.3f);
-                forwardBtn.setEnabled(true);
-                forwardBtn.setAlpha(1f);
+                if (!drawingView.isPathPaintMapEmpty()) {
+                    drawingView.undo();
+                } else {
+                    Toast.makeText(context, "Nothing to undo",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
         forwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                forwardBtn.setEnabled(false);
-                forwardBtn.setAlpha(0.3f);
-                undoBtn.setEnabled(true);
-                undoBtn.setAlpha(1f);
+                if (!drawingView.isDeletedPathsEmpty()) {
+                    drawingView.forward();
+                } else {
+                    Toast.makeText(context, "Nothing to forward",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

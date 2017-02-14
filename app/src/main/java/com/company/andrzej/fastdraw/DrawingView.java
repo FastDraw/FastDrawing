@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
 
 public class DrawingView extends View {
 
@@ -22,7 +24,6 @@ public class DrawingView extends View {
     private static final float TOLERANCE = 5;
 
     private Context context;
-    private ArrayList<Path> paths;
     private Path lastPath;
     private ArrayList<Paint> paints;
     private ArrayList<Paint> erasers;
@@ -31,30 +32,31 @@ public class DrawingView extends View {
     private Float[] styles;
     private Float[] eraserStyles;
     private Paint currentPaint;
-    private ArrayList<Paint> usedPaints;
     private float mX, mY;
     private ImageView pointer;
     private float pointerXcenter;
     private float pointerYcenter;
-    private boolean undoFlag;
+
+    private LinkedHashMap<Path, Paint> pathPaintMap;
+    private boolean fingerDown;
+    private LinkedHashMap<Path, Paint> deletedPaths;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init();
-        undoFlag = false;
     }
 
     private void init() {
-        paths = new ArrayList<>();
-        paths.add(new Path());
-        lastPath = paths.get(paths.size() - 1);
+        pathPaintMap = new LinkedHashMap<>();
+        deletedPaths = new LinkedHashMap<>();
+        lastPath = new Path();
         paints = new ArrayList<>();
         erasers = new ArrayList<>();
-        usedPaints = new ArrayList<>();
         initColorsAndStyles();
         initErasers();
-        currentPaint = paints.get(BLACK + MEDIUM);
+        setCurrentPaint(BLACK, MEDIUM);
+        setFingerDown(false);
     }
 
     private void initColorsAndStyles() {
@@ -78,7 +80,7 @@ public class DrawingView extends View {
 
     private void initErasers() {
         eraserColors = new Integer[]{Color.TRANSPARENT};
-        eraserStyles = new Float[]{15f,16f,17f,18f,19f,20f,21f,22f,23f,24f,25f,26f,27f,28f,29f,30f,31f,32f,33f,34f,35f};
+        eraserStyles = new Float[]{15f, 16f, 17f, 18f, 19f, 20f, 21f, 22f, 23f, 24f, 25f, 26f, 27f, 28f, 29f, 30f, 31f, 32f, 33f, 34f, 35f};
         for (int i = 0; i < eraserColors.length; i++) {
             for (Float style : eraserStyles) {
                 Paint p = new Paint();
@@ -102,38 +104,28 @@ public class DrawingView extends View {
     }
 
     public void resetCanvas() {
-        for (Path p : paths) {
-            p.reset();
-        }
-        paths.clear();
-        paths.add(new Path());
-        lastPath = paths.get(paths.size() - 1);
-        usedPaints.clear();
+        pathPaintMap.clear();
         postInvalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (usedPaints.size() == 0 || usedPaints.get(usedPaints.size() - 1) != currentPaint) {
-            if (!undoFlag) {
-                usedPaints.add(currentPaint);
+        if (!isPathPaintMapEmpty()) {
+            for (Path p : pathPaintMap.keySet()) {
+                canvas.drawPath(p, pathPaintMap.get(p));
             }
-
         }
-        for (Path p : paths) {
-            canvas.drawPath(p, usedPaints.get(paths.indexOf(p)));
+        // Draws the path that is currently created, but not finished (finger down, but not up yet)
+        if (isFingerDown()) {
+            canvas.drawPath(lastPath, currentPaint);
         }
     }
 
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (pointer == null) {
             pointer = ((MainActivity) context).getPointer();
-        }
-        if (undoFlag){
-            paths.add(new Path());
-            lastPath = paths.get(paths.size() - 1);
-            undoFlag = false;
         }
         float scale = (currentPaint.getStrokeWidth() + 8) / pointer.getHeight();
         pointer.setScaleX(scale);
@@ -144,6 +136,9 @@ public class DrawingView extends View {
         float pointY = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                clearDeletedPaths();
+                setFingerDown(true);
+                lastPath = new Path();
                 pointer.setVisibility(VISIBLE);
                 pointer.setX(pointX - pointerXcenter);
                 pointer.setY(pointY - pointerYcenter);
@@ -153,6 +148,7 @@ public class DrawingView extends View {
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
+                setFingerDown(true);
                 pointer.animate()
                         .x(pointX - pointerXcenter)
                         .y(pointY - pointerYcenter)
@@ -170,6 +166,8 @@ public class DrawingView extends View {
             case MotionEvent.ACTION_UP:
                 pointer.setVisibility(INVISIBLE);
                 lastPath.lineTo(mX, mY);
+                addPathPaintToMap();
+                setFingerDown(false);
                 postInvalidate();
                 break;
             default:
@@ -178,7 +176,7 @@ public class DrawingView extends View {
         return true;
     }
 
-    public void changeColorAndStyle(int color, float style){//}, boolean eraser) {
+    public void changeColorAndStyle(int color, float style) {
         // TODO change method to not create different paint but use predefined instead
         int i = 0;
         while (!colors[i].equals(color)) {
@@ -197,8 +195,7 @@ public class DrawingView extends View {
             j++;
         }
         currentPaint = paints.get(3 * i + j);
-        paths.add(new Path());
-        lastPath = paths.get(paths.size() - 1);
+        lastPath = new Path();
         postInvalidate();
     }
 
@@ -206,16 +203,73 @@ public class DrawingView extends View {
         currentPaint = erasers.get(style);
         Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
         setLayerType(LAYER_TYPE_HARDWARE, q);
-        paths.add(new Path());
-        lastPath = paths.get(paths.size() - 1);
         postInvalidate();
     }
 
     public void undo() {
-        paths.remove(paths.get(paths.size()-1));
-        lastPath = paths.get(paths.size()-1);
-        usedPaints.remove(usedPaints.get(usedPaints.size()-1));
-        undoFlag = true;
+        Path p = getLastKeyFromMap(pathPaintMap);
+        addDeletedPath(p, pathPaintMap.get(p));
+        pathPaintMap.remove(p);
         postInvalidate();
+    }
+
+    public void forward() {
+        Path p = getLastKeyFromMap(deletedPaths);
+        pathPaintMap.put(p, deletedPaths.get(p));
+        removeDeletedPath(p);
+        postInvalidate();
+    }
+
+    public Path getLastKeyFromMap(LinkedHashMap<Path, Paint> map) {
+        int i = 0;
+        for (Path p : map.keySet()) {
+            i++;
+            if (i == map.size()) {
+                return p;
+            }
+        }
+        return null; //TODO exception?
+    }
+
+    public void addDeletedPath(Path path, Paint paint) {
+        deletedPaths.put(path, paint);
+    }
+
+    public void removeDeletedPath(Path path) {
+        deletedPaths.remove(path);
+    }
+
+    public void clearDeletedPaths() {
+        if (!deletedPaths.isEmpty()) {
+            deletedPaths.clear();
+        }
+    }
+
+    public boolean isDeletedPathsEmpty() {
+        return deletedPaths.isEmpty();
+    }
+
+    public boolean isPathPaintMapEmpty() {
+        return pathPaintMap.isEmpty();
+    }
+
+    public void addPathPaintToMap() {
+        if (lastPath != null) {
+            pathPaintMap.put(lastPath, currentPaint);
+        }
+    }
+
+    // Getters and Setters
+
+    private void setCurrentPaint(int color, int style) {
+        currentPaint = paints.get(color + style);
+    }
+
+    public boolean isFingerDown() {
+        return fingerDown;
+    }
+
+    public void setFingerDown(boolean fingerDown) {
+        this.fingerDown = fingerDown;
     }
 }
