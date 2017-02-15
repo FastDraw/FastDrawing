@@ -100,16 +100,15 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    pencil.setAlpha(0.3f);
-                    pen.setAlpha(1f);
-                    marker.setAlpha(1f);
+                    setDrawingToolAlpha(0);
+                    setDrawingToolDisabled(0);
+                    setDrawingToolsUnchecked(0);
                     currentStyle = 6f;
+                    currentColor = getSavedColor();
+                    setColorToolAlpha(currentColor);
+                    setColorToolsUnchecked(currentColor);
+                    setColorToolDisabled(currentColor);
                     updateDrawingTool();
-                    pen.setChecked(false);
-                    marker.setChecked(false);
-                    pencil.setEnabled(false);
-                    pen.setEnabled(true);
-                    marker.setEnabled(true);
                 }
             }
         });
@@ -118,16 +117,15 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    pencil.setAlpha(1f);
-                    pen.setAlpha(0.3f);
-                    marker.setAlpha(1f);
+                    setDrawingToolAlpha(1);
+                    setDrawingToolDisabled(1);
+                    setDrawingToolsUnchecked(1);
                     currentStyle = 12f;
+                    currentColor = getSavedColor();
+                    setColorToolAlpha(currentColor);
+                    setColorToolsUnchecked(currentColor);
+                    setColorToolDisabled(currentColor);
                     updateDrawingTool();
-                    pencil.setChecked(false);
-                    marker.setChecked(false);
-                    pencil.setEnabled(true);
-                    pen.setEnabled(false);
-                    marker.setEnabled(true);
                 }
             }
         });
@@ -136,16 +134,15 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    pencil.setAlpha(1f);
-                    pen.setAlpha(1f);
-                    marker.setAlpha(0.3f);
+                    setDrawingToolAlpha(2);
+                    setDrawingToolDisabled(2);
+                    setDrawingToolsUnchecked(2);
                     currentStyle = 18f;
+                    currentColor = getSavedColor();
+                    setColorToolAlpha(currentColor);
+                    setColorToolsUnchecked(currentColor);
+                    setColorToolDisabled(currentColor);
                     updateDrawingTool();
-                    pencil.setChecked(false);
-                    pen.setChecked(false);
-                    pencil.setEnabled(true);
-                    pen.setEnabled(true);
-                    marker.setEnabled(false);
                 }
             }
         });
@@ -154,19 +151,11 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    color_black.setAlpha(0.3f);
-                    color_red.setAlpha(1f);
-                    color_green.setAlpha(1f);
-                    color_blue.setAlpha(1f);
+                    setColorToolAlpha(Color.BLACK);
+                    setColorToolDisabled(Color.BLACK);
+                    setColorToolsUnchecked(Color.BLACK);
                     currentColor = Color.BLACK;
                     updateDrawingTool();
-                    color_red.setChecked(false);
-                    color_green.setChecked(false);
-                    color_blue.setChecked(false);
-                    color_black.setEnabled(false);
-                    color_red.setEnabled(true);
-                    color_green.setEnabled(true);
-                    color_blue.setEnabled(true);
                 }
             }
         });
@@ -175,19 +164,11 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    color_black.setAlpha(1f);
-                    color_red.setAlpha(0.3f);
-                    color_green.setAlpha(1f);
-                    color_blue.setAlpha(1f);
+                    setColorToolAlpha(Color.RED);
+                    setColorToolDisabled(Color.RED);
+                    setColorToolsUnchecked(Color.RED);
                     currentColor = Color.RED;
                     updateDrawingTool();
-                    color_black.setChecked(false);
-                    color_green.setChecked(false);
-                    color_blue.setChecked(false);
-                    color_black.setEnabled(true);
-                    color_red.setEnabled(false);
-                    color_green.setEnabled(true);
-                    color_blue.setEnabled(true);
                 }
             }
         });
@@ -196,19 +177,11 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    color_black.setAlpha(1f);
-                    color_red.setAlpha(1f);
-                    color_green.setAlpha(0.3f);
-                    color_blue.setAlpha(1f);
+                    setColorToolAlpha(Color.GREEN);
+                    setColorToolDisabled(Color.GREEN);
+                    setColorToolsUnchecked(Color.GREEN);
                     currentColor = Color.GREEN;
                     updateDrawingTool();
-                    color_black.setChecked(false);
-                    color_red.setChecked(false);
-                    color_blue.setChecked(false);
-                    color_black.setEnabled(true);
-                    color_red.setEnabled(true);
-                    color_green.setEnabled(false);
-                    color_blue.setEnabled(true);
                 }
             }
         });
@@ -217,42 +190,27 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    color_black.setAlpha(1f);
-                    color_red.setAlpha(1f);
-                    color_green.setAlpha(1f);
-                    color_blue.setAlpha(0.3f);
+                    setColorToolAlpha(Color.BLUE);
+                    setColorToolDisabled(Color.BLUE);
+                    setColorToolsUnchecked(Color.BLUE);
                     currentColor = Color.BLUE;
                     updateDrawingTool();
-                    color_black.setChecked(false);
-                    color_red.setChecked(false);
-                    color_green.setChecked(false);
-                    color_black.setEnabled(true);
-                    color_red.setEnabled(true);
-                    color_green.setEnabled(true);
-                    color_blue.setEnabled(false);
                 }
             }
         });
         eraser.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    Toast.makeText(context, "To use other settings turn off eraser",
-                            Toast.LENGTH_SHORT).show();
-                    eraser.setAlpha(0.3f);
-                    eraserSeekBar.setVisibility(View.VISIBLE);
+                    setDrawingToolAlpha(3);
+                    setDrawingToolDisabled(3);
+                    setDrawingToolsUnchecked(3);
+                    setColorToolAlpha(Color.TRANSPARENT);
+                    setColorToolDisabled(Color.TRANSPARENT);
+                    setColorToolsUnchecked(Color.TRANSPARENT);
                     savedColor = getCurrentColor();
                     currentColor = Color.TRANSPARENT;
                     updateDrawingTool(eraserSeekBar.getProgress());
-                    setButtonsEnabled(false);
-                } else {
-                    // TODO remove blocking pens when eraser is on (set erazer the same way as it was transparent pen)
-                    eraser.setAlpha(1f);
-                    eraserSeekBar.setVisibility(View.INVISIBLE);
-                    currentColor = getSavedColor();
-                    updateDrawingTool();
-                    setButtonsEnabled(true);
                 }
             }
 
@@ -298,16 +256,6 @@ public class CustomBottomToolbarFragment extends Fragment {
         });
     }
 
-    private void setButtonsEnabled(boolean enable) {
-        pencil.setEnabled(enable);
-        pen.setEnabled(enable);
-        marker.setEnabled(enable);
-        color_black.setEnabled(enable);
-        color_red.setEnabled(enable);
-        color_green.setEnabled(enable);
-        color_blue.setEnabled(enable);
-    }
-
     void updateDrawingTool() {
         drawingView.changeColorAndStyle(currentColor, currentStyle);
     }
@@ -322,5 +270,199 @@ public class CustomBottomToolbarFragment extends Fragment {
 
     public int getSavedColor() {
         return savedColor;
+    }
+
+    // Sets clicked tool semitransparent and all the other non-transparent
+    private void setDrawingToolAlpha(int i){
+        switch (i){
+            case 0:
+                pencil.setAlpha(0.3f);
+                pen.setAlpha(1f);
+                marker.setAlpha(1f);
+                eraser.setAlpha(1f);
+                break;
+            case 1:
+                pencil.setAlpha(1f);
+                pen.setAlpha(0.3f);
+                marker.setAlpha(1f);
+                eraser.setAlpha(1f);
+                break;
+            case 2:
+                pencil.setAlpha(1f);
+                pen.setAlpha(1f);
+                marker.setAlpha(0.3f);
+                eraser.setAlpha(1f);
+                break;
+            case 3:
+                pencil.setAlpha(1f);
+                pen.setAlpha(1f);
+                marker.setAlpha(1f);
+                eraser.setAlpha(0.3f);
+                break;
+        }
+    }
+
+    // Sets clicked tool disabled and all the other enabled (hides or shows eraser's seekbar accordingly)
+    private void setDrawingToolDisabled(int i){
+        switch (i){
+            case 0:
+                pencil.setEnabled(false);
+                pen.setEnabled(true);
+                marker.setEnabled(true);
+                eraser.setEnabled(true);
+                eraserSeekBar.setVisibility(View.INVISIBLE);
+                break;
+            case 1:
+                pencil.setEnabled(true);
+                pen.setEnabled(false);
+                marker.setEnabled(true);
+                eraser.setEnabled(true); // new
+                eraserSeekBar.setVisibility(View.INVISIBLE);
+                break;
+            case 2:
+                pencil.setEnabled(true);
+                pen.setEnabled(true);
+                marker.setEnabled(false);
+                eraser.setEnabled(true); // new
+                eraserSeekBar.setVisibility(View.INVISIBLE);
+                break;
+            case 3:
+                pencil.setEnabled(true);
+                pen.setEnabled(true);
+                marker.setEnabled(true);
+                eraser.setEnabled(false);
+                eraserSeekBar.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    // Sets all not clicked tools unchecked
+    private void setDrawingToolsUnchecked(int i){
+        switch (i){
+            case 0:
+                pen.setChecked(false);
+                marker.setChecked(false);
+                eraser.setChecked(false);
+                break;
+            case 1:
+                pencil.setChecked(false);
+                marker.setChecked(false);
+                eraser.setChecked(false);
+                break;
+            case 2:
+                pencil.setChecked(false);
+                pen.setChecked(false);
+                eraser.setChecked(false);
+                break;
+            case 3:
+                pencil.setChecked(false);
+                pen.setChecked(false);
+                marker.setChecked(false);
+                break;
+        }
+    }
+
+    // Sets clicked color button semitransparent and all the other non-transparent
+    private void setColorToolAlpha(int i){
+        switch (i){
+            case Color.BLACK:
+                color_black.setAlpha(0.3f);
+                color_red.setAlpha(1f);
+                color_green.setAlpha(1f);
+                color_blue.setAlpha(1f);
+                break;
+            case Color.RED:
+                color_black.setAlpha(1f);
+                color_red.setAlpha(0.3f);
+                color_green.setAlpha(1f);
+                color_blue.setAlpha(1f);
+                break;
+            case Color.GREEN:
+                color_black.setAlpha(1f);
+                color_red.setAlpha(1f);
+                color_green.setAlpha(0.3f);
+                color_blue.setAlpha(1f);
+                break;
+            case Color.BLUE:
+                color_black.setAlpha(1f);
+                color_red.setAlpha(1f);
+                color_green.setAlpha(1f);
+                color_blue.setAlpha(0.3f);
+                break;
+            case Color.TRANSPARENT:
+                color_black.setAlpha(1f);
+                color_red.setAlpha(1f);
+                color_green.setAlpha(1f);
+                color_blue.setAlpha(1f);
+                break;
+        }
+    }
+
+    // Sets clicked color button disabled and all the other enabled
+    private void setColorToolDisabled(int i){
+        switch (i){
+            case Color.BLACK:
+                color_black.setEnabled(false);
+                color_red.setEnabled(true);
+                color_green.setEnabled(true);
+                color_blue.setEnabled(true);
+                break;
+            case Color.RED:
+                color_black.setEnabled(true);
+                color_red.setEnabled(false);
+                color_green.setEnabled(true);
+                color_blue.setEnabled(true);
+                break;
+            case Color.GREEN:
+                color_black.setEnabled(true);
+                color_red.setEnabled(true);
+                color_green.setEnabled(false);
+                color_blue.setEnabled(true);
+                break;
+            case Color.BLUE:
+                color_black.setEnabled(true);
+                color_red.setEnabled(true);
+                color_green.setEnabled(true);
+                color_blue.setEnabled(false);
+                break;
+            case Color.TRANSPARENT:
+                color_black.setEnabled(false);
+                color_red.setEnabled(false);
+                color_green.setEnabled(false);
+                color_blue.setEnabled(false);
+                break;
+        }
+    }
+
+    // Sets all not clicked color buttons unchecked
+    private void setColorToolsUnchecked(int i){
+        switch (i){
+            case Color.BLACK:
+                color_red.setChecked(false);
+                color_green.setChecked(false);
+                color_blue.setChecked(false);
+                break;
+            case Color.RED:
+                color_black.setChecked(false);
+                color_green.setChecked(false);
+                color_blue.setChecked(false);
+                break;
+            case Color.GREEN:
+                color_black.setChecked(false);
+                color_red.setChecked(false);
+                color_blue.setChecked(false);
+                break;
+            case Color.BLUE:
+                color_black.setChecked(false);
+                color_red.setChecked(false);
+                color_green.setChecked(false);
+                break;
+            case Color.TRANSPARENT:
+                color_black.setChecked(false);
+                color_red.setChecked(false);
+                color_green.setChecked(false);
+                color_blue.setChecked(false);
+                break;
+        }
     }
 }
