@@ -6,7 +6,11 @@ android {
     defaultConfig {
         applicationId "com.company.andrzej.fastdraw"
         minSdkVersion 16
+<<<<<<< HEAD
+        targetSdkVersion 24
+=======
         targetSdkVersion 25
+>>>>>>> master
         versionCode 4
         versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

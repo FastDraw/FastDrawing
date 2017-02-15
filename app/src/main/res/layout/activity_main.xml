@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_relative"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -19,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:background="@mipmap/ic_done_black_36dp"
+        android:background="@drawable/ic_check_black_24dp"
         android:contentDescription="@string/accept"
         android:layout_alignParentRight="true" />
 
@@ -29,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:background="@mipmap/ic_clear_black_36dp"
+        android:background="@drawable/ic_close_black_24dp"
         android:contentDescription="@string/clear"
         android:layout_alignParentLeft="true" />
 
@@ -39,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:background="@mipmap/ic_screen_share_black_36dp"
+        android:background="@drawable/ic_image_black_24dp"
         android:contentDescription="@string/background"
         android:layout_alignParentRight="true" />
 
@@ -49,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@mipmap/ic_keyboard_arrow_up_black_36dp"
+        android:background="@drawable/ic_expand_less_black_24dp"
         android:contentDescription="@string/open_toolbar" />
 
     <ImageButton
