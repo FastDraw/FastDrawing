@@ -66,8 +66,8 @@ public class CustomBottomToolbarFragment extends Fragment {
         forwardBtn = (ImageButton) view.findViewById(R.id.forward_button);
         drawingView = (DrawingView) getActivity().findViewById(R.id.drawing_canvas);
         sosFragment = (ImageButton) view.findViewById(R.id.sos_button);
-        currentColor = Color.BLACK;
-        currentStyle = 12f;
+        setCurrentColor(Color.BLACK);
+        setCurrentStyle(12f);
         hideFragment();
         setButtonsListeners();
         openSOSFragment();
@@ -103,8 +103,8 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setDrawingToolAlpha(0);
                     setDrawingToolDisabled(0);
                     setDrawingToolsUnchecked(0);
-                    currentStyle = 6f;
-                    currentColor = getSavedColor();
+                    setCurrentStyle(6f);
+                    setCurrentColor(getSavedColor());
                     setColorToolAlpha(currentColor);
                     setColorToolsUnchecked(currentColor);
                     setColorToolDisabled(currentColor);
@@ -120,8 +120,8 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setDrawingToolAlpha(1);
                     setDrawingToolDisabled(1);
                     setDrawingToolsUnchecked(1);
-                    currentStyle = 12f;
-                    currentColor = getSavedColor();
+                    setCurrentStyle(12f);
+                    setCurrentColor(getSavedColor());
                     setColorToolAlpha(currentColor);
                     setColorToolsUnchecked(currentColor);
                     setColorToolDisabled(currentColor);
@@ -137,8 +137,8 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setDrawingToolAlpha(2);
                     setDrawingToolDisabled(2);
                     setDrawingToolsUnchecked(2);
-                    currentStyle = 18f;
-                    currentColor = getSavedColor();
+                    setCurrentStyle(18f);
+                    setCurrentColor(getSavedColor());
                     setColorToolAlpha(currentColor);
                     setColorToolsUnchecked(currentColor);
                     setColorToolDisabled(currentColor);
@@ -154,7 +154,8 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setColorToolAlpha(Color.BLACK);
                     setColorToolDisabled(Color.BLACK);
                     setColorToolsUnchecked(Color.BLACK);
-                    currentColor = Color.BLACK;
+                    setCurrentColor(Color.BLACK);
+                    setSavedColor(Color.BLACK);
                     updateDrawingTool();
                 }
             }
@@ -167,7 +168,8 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setColorToolAlpha(Color.RED);
                     setColorToolDisabled(Color.RED);
                     setColorToolsUnchecked(Color.RED);
-                    currentColor = Color.RED;
+                    setCurrentColor(Color.RED);
+                    setSavedColor(Color.RED);
                     updateDrawingTool();
                 }
             }
@@ -180,7 +182,8 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setColorToolAlpha(Color.GREEN);
                     setColorToolDisabled(Color.GREEN);
                     setColorToolsUnchecked(Color.GREEN);
-                    currentColor = Color.GREEN;
+                    setCurrentColor(Color.GREEN);
+                    setSavedColor(Color.GREEN);
                     updateDrawingTool();
                 }
             }
@@ -193,7 +196,8 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setColorToolAlpha(Color.BLUE);
                     setColorToolDisabled(Color.BLUE);
                     setColorToolsUnchecked(Color.BLUE);
-                    currentColor = Color.BLUE;
+                    setCurrentColor(Color.BLUE);
+                    setSavedColor(Color.BLUE);
                     updateDrawingTool();
                 }
             }
@@ -208,8 +212,8 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setColorToolAlpha(Color.TRANSPARENT);
                     setColorToolDisabled(Color.TRANSPARENT);
                     setColorToolsUnchecked(Color.TRANSPARENT);
-                    savedColor = getCurrentColor();
-                    currentColor = Color.TRANSPARENT;
+                    setSavedColor(getCurrentColor());
+                    setCurrentColor(Color.TRANSPARENT);
                     updateDrawingTool(eraserSeekBar.getProgress());
                 }
             }
@@ -268,8 +272,20 @@ public class CustomBottomToolbarFragment extends Fragment {
         return currentColor;
     }
 
+    public void setCurrentColor(int currentColor) {
+        this.currentColor = currentColor;
+    }
+
     public int getSavedColor() {
         return savedColor;
+    }
+
+    public void setSavedColor(int savedColor) {
+        this.savedColor = savedColor;
+    }
+
+    public void setCurrentStyle(float currentStyle) {
+        this.currentStyle = currentStyle;
     }
 
     // Sets clicked tool semitransparent and all the other non-transparent
