@@ -51,10 +51,10 @@ public class SplashActivity extends AppCompatActivity {
         String[] quotes = getResources().getStringArray(R.array.splash_quotes);
         String[] authors = getResources().getStringArray(R.array.splash_authors);
         int[] images = new int[]{
-                R.drawable.splash_emoticon_1,
-                R.drawable.splash_emoticon_2,
-                R.drawable.splash_emoticon_3,
-                R.drawable.splash_emoticon_4};
+                R.drawable.splash_emoticon_1_small,
+                R.drawable.splash_emoticon_2_small,
+                R.drawable.splash_emoticon_3_small,
+                R.drawable.splash_emoticon_4_small};
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), quotes, authors, images);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager, true);
