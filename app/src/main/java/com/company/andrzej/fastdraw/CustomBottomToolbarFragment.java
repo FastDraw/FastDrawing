@@ -20,6 +20,10 @@ import butterknife.ButterKnife;
 
 public class CustomBottomToolbarFragment extends Fragment {
 
+    private static final int PENCIL = 0;
+    private static final int PEN = 1;
+    private static final int MARKER = 2;
+    private static final int ERASER = 3;
     private Context context;
     private SOSFragment sFragment;
     private ImageButton btnHide, undoBtn, forwardBtn, sosFragment;
@@ -100,9 +104,9 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    setDrawingToolAlpha(0);
-                    setDrawingToolDisabled(0);
-                    setDrawingToolsUnchecked(0);
+                    setDrawingToolAlpha(PENCIL);
+                    setDrawingToolDisabled(PENCIL);
+                    setDrawingToolsUnchecked(PENCIL);
                     setCurrentStyle(6f);
                     setCurrentColor(getSavedColor());
                     setColorToolAlpha(currentColor);
@@ -117,9 +121,9 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    setDrawingToolAlpha(1);
-                    setDrawingToolDisabled(1);
-                    setDrawingToolsUnchecked(1);
+                    setDrawingToolAlpha(PEN);
+                    setDrawingToolDisabled(PEN);
+                    setDrawingToolsUnchecked(PEN);
                     setCurrentStyle(12f);
                     setCurrentColor(getSavedColor());
                     setColorToolAlpha(currentColor);
@@ -134,9 +138,9 @@ public class CustomBottomToolbarFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // temporary alfa change to indicate button on/off status
                 if (isChecked) {
-                    setDrawingToolAlpha(2);
-                    setDrawingToolDisabled(2);
-                    setDrawingToolsUnchecked(2);
+                    setDrawingToolAlpha(MARKER);
+                    setDrawingToolDisabled(MARKER);
+                    setDrawingToolsUnchecked(MARKER);
                     setCurrentStyle(18f);
                     setCurrentColor(getSavedColor());
                     setColorToolAlpha(currentColor);
@@ -206,9 +210,9 @@ public class CustomBottomToolbarFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    setDrawingToolAlpha(3);
-                    setDrawingToolDisabled(3);
-                    setDrawingToolsUnchecked(3);
+                    setDrawingToolAlpha(ERASER);
+                    setDrawingToolDisabled(ERASER);
+                    setDrawingToolsUnchecked(ERASER);
                     setColorToolAlpha(Color.TRANSPARENT);
                     setColorToolDisabled(Color.TRANSPARENT);
                     setColorToolsUnchecked(Color.TRANSPARENT);
@@ -260,11 +264,11 @@ public class CustomBottomToolbarFragment extends Fragment {
         });
     }
 
-    void updateDrawingTool() {
+    private void updateDrawingTool() {
         drawingView.changeColorAndStyle(currentColor, currentStyle);
     }
 
-    void updateDrawingTool(int style) {
+    private void updateDrawingTool(int style) {
         drawingView.erase(style);
     }
 
@@ -291,25 +295,25 @@ public class CustomBottomToolbarFragment extends Fragment {
     // Sets clicked tool semitransparent and all the other non-transparent
     private void setDrawingToolAlpha(int i){
         switch (i){
-            case 0:
+            case PENCIL:
                 pencil.setAlpha(0.3f);
                 pen.setAlpha(1f);
                 marker.setAlpha(1f);
                 eraser.setAlpha(1f);
                 break;
-            case 1:
+            case PEN:
                 pencil.setAlpha(1f);
                 pen.setAlpha(0.3f);
                 marker.setAlpha(1f);
                 eraser.setAlpha(1f);
                 break;
-            case 2:
+            case MARKER:
                 pencil.setAlpha(1f);
                 pen.setAlpha(1f);
                 marker.setAlpha(0.3f);
                 eraser.setAlpha(1f);
                 break;
-            case 3:
+            case ERASER:
                 pencil.setAlpha(1f);
                 pen.setAlpha(1f);
                 marker.setAlpha(1f);
@@ -321,28 +325,28 @@ public class CustomBottomToolbarFragment extends Fragment {
     // Sets clicked tool disabled and all the other enabled (hides or shows eraser's seekbar accordingly)
     private void setDrawingToolDisabled(int i){
         switch (i){
-            case 0:
+            case PENCIL:
                 pencil.setEnabled(false);
                 pen.setEnabled(true);
                 marker.setEnabled(true);
                 eraser.setEnabled(true);
                 eraserSeekBar.setVisibility(View.INVISIBLE);
                 break;
-            case 1:
+            case PEN:
                 pencil.setEnabled(true);
                 pen.setEnabled(false);
                 marker.setEnabled(true);
                 eraser.setEnabled(true); // new
                 eraserSeekBar.setVisibility(View.INVISIBLE);
                 break;
-            case 2:
+            case MARKER:
                 pencil.setEnabled(true);
                 pen.setEnabled(true);
                 marker.setEnabled(false);
                 eraser.setEnabled(true); // new
                 eraserSeekBar.setVisibility(View.INVISIBLE);
                 break;
-            case 3:
+            case ERASER:
                 pencil.setEnabled(true);
                 pen.setEnabled(true);
                 marker.setEnabled(true);
@@ -355,22 +359,22 @@ public class CustomBottomToolbarFragment extends Fragment {
     // Sets all not clicked tools unchecked
     private void setDrawingToolsUnchecked(int i){
         switch (i){
-            case 0:
+            case PENCIL:
                 pen.setChecked(false);
                 marker.setChecked(false);
                 eraser.setChecked(false);
                 break;
-            case 1:
+            case PEN:
                 pencil.setChecked(false);
                 marker.setChecked(false);
                 eraser.setChecked(false);
                 break;
-            case 2:
+            case MARKER:
                 pencil.setChecked(false);
                 pen.setChecked(false);
                 eraser.setChecked(false);
                 break;
-            case 3:
+            case ERASER:
                 pencil.setChecked(false);
                 pen.setChecked(false);
                 marker.setChecked(false);
