@@ -26,6 +26,15 @@
         android:max="20"
         android:id="@+id/eraserSeekBar" />
 
+    <SeekBar
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:max="20"
+        android:id="@+id/textSeekBar" />
+
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,6 +145,16 @@
                 android:checked="false"
                 android:textOff=""
                 android:textOn=""/>
+
+            <ToggleButton
+                android:layout_width="@dimen/toolbox_icon_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_button"
+                android:contentDescription="@string/text_button"
+                android:background="@drawable/btn_toggle_text"
+                android:checked="false"
+                android:textOff=""
+                android:textOn="" />
 
             <ImageView
                 android:layout_width="wrap_content"
