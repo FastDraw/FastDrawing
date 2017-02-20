@@ -218,7 +218,7 @@ public class CustomBottomToolbarFragment extends Fragment {
                     setColorToolsUnchecked(Color.TRANSPARENT);
                     setSavedColor(getCurrentColor());
                     setCurrentColor(Color.TRANSPARENT);
-                    updateDrawingTool(eraserSeekBar.getProgress());
+                    updateErasingTool(eraserSeekBar.getProgress());
                 }
             }
 
@@ -268,8 +268,12 @@ public class CustomBottomToolbarFragment extends Fragment {
         drawingView.changeColorAndStyle(currentColor, currentStyle);
     }
 
-    private void updateDrawingTool(int style) {
+    private void updateErasingTool(int style) {
         drawingView.erase(style);
+    }
+
+    private void updateTextTool(int style) {
+        drawingView.text(style);
     }
 
     public int getCurrentColor() {
