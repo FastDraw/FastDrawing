@@ -206,6 +206,10 @@ public class DrawingView extends View {
         postInvalidate();
     }
 
+    public void text(int style){
+        //TODO add text fields
+    }
+
     public void undo() {
         Path p = getLastKeyFromMap(pathPaintMap);
         addDeletedPath(p, pathPaintMap.get(p));
