@@ -57,7 +57,7 @@
                 android:background="@drawable/btn_toggle_pen"
                 android:checked="true"
                 android:enabled="false"
-                android:alpha="0.5"
+                android:alpha="0.3"
                 android:textOff=""
                 android:textOn=""/>
 
@@ -86,7 +86,7 @@
                 android:background="@drawable/btn_toggle_black"
                 android:checked="true"
                 android:enabled="false"
-                android:alpha="0.5"
+                android:alpha="0.3"
                 android:textOff=""
                 android:textOn=""/>
 
