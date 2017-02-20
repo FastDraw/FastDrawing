@@ -24,11 +24,12 @@ public class CustomBottomToolbarFragment extends Fragment {
     private static final int PEN = 1;
     private static final int MARKER = 2;
     private static final int ERASER = 3;
+    private static final int TEXT = 4;
     private Context context;
     private SOSFragment sFragment;
     private ImageButton btnHide, undoBtn, forwardBtn, sosFragment;
-    private ToggleButton pencil, pen, marker, color_black, color_red, color_green, color_blue, eraser;
-    private SeekBar eraserSeekBar;
+    private ToggleButton pencil, pen, marker, color_black, color_red, color_green, color_blue, eraser, textBtn;
+    private SeekBar eraserSeekBar, textSeekBar;
     private DrawingView drawingView;
     private int currentColor;
     private float currentStyle;
@@ -66,11 +67,14 @@ public class CustomBottomToolbarFragment extends Fragment {
         color_blue = (ToggleButton) view.findViewById(R.id.color_blue);
         eraser = (ToggleButton) view.findViewById(R.id.eraser);
         eraserSeekBar = (SeekBar) view.findViewById(R.id.eraserSeekBar);
+        textBtn = (ToggleButton) view.findViewById(R.id.text_button);
+        textSeekBar = (SeekBar) view.findViewById(R.id.textSeekBar);
         undoBtn = (ImageButton) view.findViewById(R.id.undo_button);
         forwardBtn = (ImageButton) view.findViewById(R.id.forward_button);
         drawingView = (DrawingView) getActivity().findViewById(R.id.drawing_canvas);
         sosFragment = (ImageButton) view.findViewById(R.id.sos_button);
         setCurrentColor(Color.BLACK);
+        setSavedColor(Color.BLACK);
         setCurrentStyle(12f);
         hideFragment();
         setButtonsListeners();
@@ -237,7 +241,40 @@ public class CustomBottomToolbarFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                updateDrawingTool(seekBar.getProgress());
+                updateErasingTool(seekBar.getProgress());
+            }
+        });
+        textBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    setDrawingToolAlpha(TEXT);
+                    setDrawingToolDisabled(TEXT);
+                    setDrawingToolsUnchecked(TEXT);
+                    setCurrentColor(getSavedColor());
+                    setColorToolAlpha(currentColor);
+                    setColorToolsUnchecked(currentColor);
+                    setColorToolDisabled(currentColor);
+                    updateTextTool(textSeekBar.getProgress());
+                }
+            }
+
+
+        });
+        textSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                updateTextTool(seekBar.getProgress());
             }
         });
         undoBtn.setOnClickListener(new View.OnClickListener() {
@@ -304,24 +341,35 @@ public class CustomBottomToolbarFragment extends Fragment {
                 pen.setAlpha(1f);
                 marker.setAlpha(1f);
                 eraser.setAlpha(1f);
+                textBtn.setAlpha(1f);
                 break;
             case PEN:
                 pencil.setAlpha(1f);
                 pen.setAlpha(0.3f);
                 marker.setAlpha(1f);
                 eraser.setAlpha(1f);
+                textBtn.setAlpha(1f);
                 break;
             case MARKER:
                 pencil.setAlpha(1f);
                 pen.setAlpha(1f);
                 marker.setAlpha(0.3f);
                 eraser.setAlpha(1f);
+                textBtn.setAlpha(1f);
                 break;
             case ERASER:
                 pencil.setAlpha(1f);
                 pen.setAlpha(1f);
                 marker.setAlpha(1f);
                 eraser.setAlpha(0.3f);
+                textBtn.setAlpha(1f);
+                break;
+            case TEXT:
+                pencil.setAlpha(1f);
+                pen.setAlpha(1f);
+                marker.setAlpha(1f);
+                eraser.setAlpha(1f);
+                textBtn.setAlpha(0.3f);
                 break;
         }
     }
@@ -335,20 +383,26 @@ public class CustomBottomToolbarFragment extends Fragment {
                 marker.setEnabled(true);
                 eraser.setEnabled(true);
                 eraserSeekBar.setVisibility(View.INVISIBLE);
+                textBtn.setEnabled(true);
+                textSeekBar.setVisibility(View.INVISIBLE);
                 break;
             case PEN:
                 pencil.setEnabled(true);
                 pen.setEnabled(false);
                 marker.setEnabled(true);
-                eraser.setEnabled(true); // new
+                eraser.setEnabled(true);
                 eraserSeekBar.setVisibility(View.INVISIBLE);
+                textBtn.setEnabled(true);
+                textSeekBar.setVisibility(View.INVISIBLE);
                 break;
             case MARKER:
                 pencil.setEnabled(true);
                 pen.setEnabled(true);
                 marker.setEnabled(false);
-                eraser.setEnabled(true); // new
+                eraser.setEnabled(true);
                 eraserSeekBar.setVisibility(View.INVISIBLE);
+                textBtn.setEnabled(true);
+                textSeekBar.setVisibility(View.INVISIBLE);
                 break;
             case ERASER:
                 pencil.setEnabled(true);
@@ -356,6 +410,17 @@ public class CustomBottomToolbarFragment extends Fragment {
                 marker.setEnabled(true);
                 eraser.setEnabled(false);
                 eraserSeekBar.setVisibility(View.VISIBLE);
+                textBtn.setEnabled(true);
+                textSeekBar.setVisibility(View.INVISIBLE);
+                break;
+            case TEXT:
+                pencil.setEnabled(true);
+                pen.setEnabled(true);
+                marker.setEnabled(true);
+                eraser.setEnabled(true);
+                eraserSeekBar.setVisibility(View.INVISIBLE);
+                textBtn.setEnabled(false);
+                textSeekBar.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -367,21 +432,31 @@ public class CustomBottomToolbarFragment extends Fragment {
                 pen.setChecked(false);
                 marker.setChecked(false);
                 eraser.setChecked(false);
+                textBtn.setChecked(false);
                 break;
             case PEN:
                 pencil.setChecked(false);
                 marker.setChecked(false);
                 eraser.setChecked(false);
+                textBtn.setChecked(false);
                 break;
             case MARKER:
                 pencil.setChecked(false);
                 pen.setChecked(false);
                 eraser.setChecked(false);
+                textBtn.setChecked(false);
                 break;
             case ERASER:
                 pencil.setChecked(false);
                 pen.setChecked(false);
                 marker.setChecked(false);
+                textBtn.setChecked(false);
+                break;
+            case TEXT:
+                pencil.setChecked(false);
+                pen.setChecked(false);
+                marker.setChecked(false);
+                eraser.setChecked(false);
                 break;
         }
     }
