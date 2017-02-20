@@ -69,4 +69,5 @@
     <string name="button">Button</string>
     <string name="exit">Exit</string>
     <string name="start">START</string>
+    <string name="text_button">text button</string>
 </resources>
