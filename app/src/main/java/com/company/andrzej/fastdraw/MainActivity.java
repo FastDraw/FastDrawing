@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         backgroundBtn = (ImageButton) findViewById(R.id.btn_background);
         toogleToolbar = (ImageButton) findViewById(R.id.btn_toolbar);
         addPhotoBtn = (ImageButton) findViewById(R.id.btn_addphoto);
+        textField = (EditText) findViewById(R.id.text_field);
         waterMark = (TextView) findViewById(R.id.water_mark);
     }
 
@@ -416,4 +417,17 @@ public class MainActivity extends AppCompatActivity {
     public ImageView getPointer() {
         return (ImageView)findViewById(R.id.pointer);
     }
+
+    public EditText getTextField() {
+        return textField;
+    }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//
+//        Log.d("TEST", "Key Down  :" + keyCode + " String : " + drawingView.getText());
+//        drawingView.setText(drawingView.getText() + (char) event.getUnicodeChar());
+//
+//        return super.onKeyDown(keyCode, event);
+//    }
 }
