@@ -7,9 +7,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -41,6 +44,12 @@ public class DrawingView extends View {
     private boolean fingerDown;
     private LinkedHashMap<Path, Paint> deletedPaths;
 
+    boolean textFlag;
+    EditText textField;
+    TextPaint tp;
+    String text;
+    float textX, textY;
+
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
@@ -57,6 +66,10 @@ public class DrawingView extends View {
         initErasers();
         setCurrentPaint(BLACK, MEDIUM);
         setFingerDown(false);
+        textFlag = false;
+
+        tp = new TextPaint();
+        text = "";
     }
 
     private void initColorsAndStyles() {
@@ -120,6 +133,11 @@ public class DrawingView extends View {
         if (isFingerDown()) {
             canvas.drawPath(lastPath, currentPaint);
         }
+        if (textFlag) {
+            tp.setTextSize(36*getResources().getDisplayMetrics().density);
+            tp.setColor(currentPaint.getColor());
+            canvas.drawText(text,textX,textY,tp);
+        }
     }
 
     @Override
@@ -138,36 +156,59 @@ public class DrawingView extends View {
             case MotionEvent.ACTION_DOWN:
                 clearDeletedPaths();
                 setFingerDown(true);
-                lastPath = new Path();
-                pointer.setVisibility(VISIBLE);
-                pointer.setX(pointX - pointerXcenter);
-                pointer.setY(pointY - pointerYcenter);
-                lastPath.moveTo(pointX, pointY);
-                mX = pointX;
-                mY = pointY;
-                postInvalidate();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                setFingerDown(true);
-                pointer.animate()
-                        .x(pointX - pointerXcenter)
-                        .y(pointY - pointerYcenter)
-                        .setDuration(0)
-                        .start();
-                float dx = Math.abs(pointX - mX);
-                float dy = Math.abs(pointY - mY);
-                if (dx >= TOLERANCE || dy >= TOLERANCE) {
-                    lastPath.quadTo(mX, mY, (pointX + mX) / 2, (pointY + mY) / 2);
+                if (textFlag){
+                    if (textField != null && !textField.getText().toString().equals("")){
+                        setText(textField.getText().toString());
+                        setTextX(textField.getX());
+                        setTextY(textField.getY()+textField.getHeight()-20*2); //TODO proportion: for text size 18 it needs 20dp to be subtracted
+                        textField = null;
+                    }
+                } else {
+                    lastPath = new Path();
+                    pointer.setVisibility(VISIBLE);
+                    pointer.setX(pointX - pointerXcenter);
+                    pointer.setY(pointY - pointerYcenter);
+                    lastPath.moveTo(pointX, pointY);
                     mX = pointX;
                     mY = pointY;
                 }
                 postInvalidate();
                 break;
+            case MotionEvent.ACTION_MOVE:
+                setFingerDown(true);
+                if (textFlag){
+
+                } else {
+                    pointer.animate()
+                            .x(pointX - pointerXcenter)
+                            .y(pointY - pointerYcenter)
+                            .setDuration(0)
+                            .start();
+                    float dx = Math.abs(pointX - mX);
+                    float dy = Math.abs(pointY - mY);
+                    if (dx >= TOLERANCE || dy >= TOLERANCE) {
+                        lastPath.quadTo(mX, mY, (pointX + mX) / 2, (pointY + mY) / 2);
+                        mX = pointX;
+                        mY = pointY;
+                    }
+                }
+                postInvalidate();
+                break;
             case MotionEvent.ACTION_UP:
-                pointer.setVisibility(INVISIBLE);
-                lastPath.lineTo(mX, mY);
-                addPathPaintToMap();
-                setFingerDown(false);
+                if (textFlag){
+                    textField = ((MainActivity) context).getTextField();
+                    textField.setVisibility(VISIBLE);
+                    textField.setX(pointX);
+                    textField.setY(pointY);
+                    textField.setTextColor(currentPaint.getColor());
+                    textField.setTextSize(36);
+                    ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                } else {
+                    pointer.setVisibility(INVISIBLE);
+                    lastPath.lineTo(mX, mY);
+                    addPathPaintToMap();
+                    setFingerDown(false);
+                }
                 postInvalidate();
                 break;
             default:
@@ -175,6 +216,8 @@ public class DrawingView extends View {
         }
         return true;
     }
+
+
 
     public void changeColorAndStyle(int color, float style) {
         // TODO change method to not create different paint but use predefined instead
@@ -208,6 +251,8 @@ public class DrawingView extends View {
 
     public void text(int style){
         //TODO add text fields
+        textFlag = true;
+        tp.setStrokeWidth(50);
     }
 
     public void undo() {
@@ -275,5 +320,29 @@ public class DrawingView extends View {
 
     public void setFingerDown(boolean fingerDown) {
         this.fingerDown = fingerDown;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public float getTextX() {
+        return textX;
+    }
+
+    public void setTextX(float textX) {
+        this.textX = textX;
+    }
+
+    public float getTextY() {
+        return textY;
+    }
+
+    public void setTextY(float textY) {
+        this.textY = textY;
     }
 }
