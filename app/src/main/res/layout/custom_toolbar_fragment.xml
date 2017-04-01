@@ -154,7 +154,8 @@
                 android:background="@drawable/btn_toggle_text"
                 android:checked="false"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="wrap_content"
